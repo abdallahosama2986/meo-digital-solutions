@@ -1,0 +1,322 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+const resources = {
+  ar: {
+    translation: {
+      nav: {
+        home: 'الرئيسية',
+        about: 'عن المكتب',
+        services: 'الخدمات',
+        articles: 'المقالات',
+        contact: 'اتصل بنا',
+        jobs: 'الوظائف',
+      },
+      hero: {
+        badge: 'مكتب الخبرات المتعددة',
+        title: 'ندير حساباتك المالية باحتراف',
+        subtitle: 'الخبرات المتعددة للخدمات المحاسبية والإدارية والتشغيلية والتسويقية',
+        cta1: 'احصل على استشارة',
+        cta2: 'خدماتنا',
+        stats: {
+          years: 'سنوات خبرة',
+          cafes: 'مقهى يعمل معنا',
+          restaurants: 'مطعم يعمل معنا',
+        },
+      },
+      services: {
+        label: 'خدماتنا',
+        title: 'خدمات متكاملة لنمو منشأتك',
+        subtitle: 'نقدم حلولاً شاملة ومتكاملة تساعدك على تحقيق أهدافك بكفاءة وفعالية',
+        items: {
+          accounting: { title: 'الخدمات المحاسبية', desc: 'إدارة الحسابات والتقارير المالية الدقيقة وفق أعلى المعايير المهنية' },
+          admin: { title: 'الخدمات الإدارية', desc: 'إعادة هيكلة العمليات الإدارية وتطوير الأنظمة لزيادة الكفاءة' },
+          operational: { title: 'الخدمات التشغيلية', desc: 'متابعة العمليات اليومية وتقليل التكاليف وزيادة الإنتاجية' },
+          marketing: { title: 'خدمات التسويق', desc: 'استراتيجيات تسويقية فعّالة لزيادة المبيعات وتعزيز الحضور الرقمي' },
+          restaurant: { title: 'إرشادات المطاعم', desc: 'استشارات متخصصة لتأسيس وتطوير المطاعم والمقاهي' },
+          systems: { title: 'الأنظمة التقنية', desc: 'حلول تقنية متكاملة وتقارير ذكية لدعم القرارات الاستراتيجية' },
+        },
+        learnMore: 'اعرف المزيد',
+      },
+      why: {
+        label: 'لماذا نحن',
+        title: 'ما يميزنا عن غيرنا',
+        items: {
+          accuracy: { title: 'الدقة والجودة', desc: 'نلتزم بأعلى معايير الدقة في جميع خدماتنا المالية والإدارية' },
+          experience: { title: 'الخبرة والاحترافية', desc: 'فريق من المختصين بخبرة تزيد عن 10 سنوات في خدمة المنشآت' },
+          confidentiality: { title: 'السرية والأمانة', desc: 'نلتزم بالسرية التامة لجميع المعلومات الخاصة بعملائنا' },
+          systems: { title: 'الأنظمة الذكية', desc: 'أنظمة تقنية متطورة توفر تقارير دقيقة لدعم قراراتك' },
+        },
+      },
+      packages: {
+        label: 'باقاتنا',
+        title: 'اختر الباقة المناسبة لك',
+        subtitle: 'باقات مصممة خصيصاً لتلبية احتياجات منشأتك بأفضل الأسعار',
+        launch: {
+          name: 'باقة الانطلاق',
+          desc: 'مثالية للمنشآت الصغيرة والناشئة',
+          features: ['إدارة الحسابات الشهرية', 'تقارير مالية دورية', 'استشارات إدارية', 'دعم عبر الهاتف', 'زيارة شهرية'],
+        },
+        business: {
+          name: 'باقة ريادة الأعمال',
+          desc: 'مثالية للمطاعم والمقاهي والمنشآت المتوسطة',
+          features: ['كل مميزات باقة الانطلاق', 'تسويق رقمي شامل', 'إدارة العمليات التشغيلية', 'تقارير تحليلية متقدمة', 'زيارات أسبوعية', 'دعم على مدار الساعة', 'هيكلة إدارية متكاملة'],
+        },
+        cta: 'ابدأ الآن',
+        popular: 'الأكثر طلباً',
+        contact: 'تواصل معنا للتسعير',
+      },
+      testimonials: {
+        label: 'آراء العملاء',
+        title: 'ماذا يقول عملاؤنا',
+        items: [
+          { name: 'أحمد إبراهيم', role: 'مدير مطعم الماسة', text: 'تعجز الكلمات فعلاً أن تعبر عن شكري وتقديري لهذه الشركة. أتعامل معها منذ سنوات ولم تتغير خدمتهم، بل على العكس كل يوم أرى منهم الجديد والاحترافية العالية.' },
+          { name: 'محمد علي', role: 'صاحب مطعم البركة', text: 'دعم ممتاز على مدار الساعة وعمل بذمة وضمير واحتراف. أنا مجرب خدمات أخرى ولم أجد مثل هذه الجودة والاحترافية في التعامل.' },
+          { name: 'سعد العمري', role: 'صاحب مقهى', text: 'خدمات المكتب غيّرت طريقة إدارتي لمشروعي. التقارير المالية الدقيقة ساعدتني في اتخاذ قرارات صحيحة وزيادة أرباحي بشكل ملحوظ.' },
+        ],
+      },
+      cta: {
+        title: 'ابدأ رحلتك نحو نمو مالي مستدام',
+        subtitle: 'تواصل معنا اليوم واكتشف كيف يمكننا مساعدتك في تطوير منشأتك',
+        button: 'تواصل معنا',
+      },
+      about: {
+        title: 'عن مكتب الخبرات المتعددة',
+        badge: 'قصتنا',
+        story: 'مؤسسة رائدة متخصصة في خدمات وتطوير المنشآت الإدارية والمحاسبية والتسويقية، بأسلوب جديد وبفكر مبتكر، نقدم لعملائنا الخدمات والاستشارات التي تحقق لهم التميز والتفرد، وبما يحقق مصالحهم وأهدافهم، بأقل تكلفة وبأعلى فعالية.',
+        story2: 'نمتلك فريقاً من المحاسبين والمستشارين لنحقق النجاح لمنشأتك وذلك للمنشآت الصغيرة والمتوسطة، فننفرد على مستوى المملكة بما نقدمه من الخدمات الإدارية والمحاسبية والتشغيلية والتسويقية.',
+        vision: {
+          label: 'رؤيتنا',
+          text: 'أن نكون شريكاً موثوقاً به للمنشآت الصغيرة والمتوسطة والمساهمة في تطوير ونمو واستدامة استثماراتها. إنجاز أعمالنا بشكل صحيح، بما يعود على عملائنا برفع كفاءة المنشأة والموظفين في أسرع وقت.',
+        },
+        mission: {
+          label: 'رسالتنا',
+          text: 'نسعى لتقديم خدمات إدارية ومحاسبية وتشغيلية وتسويقية متكاملة ودقيقة لعملائنا، وتقليل التكاليف التشغيلية لمشاريعهم وزيادة الإنتاجية والربحية، مع التزامنا بالسرية التامة لجميع المعلومات الخاصة بالعملاء.',
+        },
+        values: {
+          label: 'قيمنا',
+          title: 'القيم التي تحكم عملنا',
+          items: [
+            { title: 'الابتكار', desc: 'نسعى دائماً لتقديم حلول مبتكرة تواكب متطلبات السوق' },
+            { title: 'الريادة', desc: 'نقود التغيير ونكون في طليعة المنافسة في مجالنا' },
+            { title: 'الارتقاء', desc: 'نرتقي بمستوى خدماتنا باستمرار لتجاوز توقعات عملائنا' },
+            { title: 'الاحترافية', desc: 'نلتزم بأعلى معايير المهنية في كل ما نقدمه من خدمات' },
+          ],
+        },
+        location: 'مكتبنا متواجد على أرض الواقع بمدينة جازان، يستطيع العميل زيارته في أي وقت خلال أوقات الدوام الرسمي.',
+      },
+      contact: {
+        title: 'تواصل معنا',
+        badge: 'نحن هنا لمساعدتك',
+        subtitle: 'نمتلك الخبرة لتطوير أعمالك الإدارية والمحاسبية والتشغيلية والتسويقية',
+        phone: 'الهاتف',
+        email: 'البريد الإلكتروني',
+        address: 'العنوان',
+        addressValue: 'جازان، المملكة العربية السعودية',
+        hours: 'مواعيد العمل',
+        hoursValue: 'السبت – الخميس: ١٠ص – ١م، ٥م – ٩م | الجمعة: مغلق',
+        form: {
+          name: 'الاسم الكامل',
+          email: 'البريد الإلكتروني',
+          phone: 'رقم الجوال',
+          message: 'رسالتك',
+          send: 'إرسال الرسالة',
+          namePlaceholder: 'أدخل اسمك الكامل',
+          emailPlaceholder: 'أدخل بريدك الإلكتروني',
+          phonePlaceholder: '+966 5X XXX XXXX',
+          messagePlaceholder: 'كيف يمكننا مساعدتك؟',
+        },
+        social: 'تابعنا على',
+      },
+      articles: {
+        label: 'المقالات',
+        title: 'ما يجب أن تعرفه',
+        subtitle: 'مقالات ونصائح من خبرائنا لمساعدتك في تطوير منشأتك',
+        readMore: 'قراءة المزيد',
+        items: [
+          { title: 'كيف تأسس مطعمك؟', excerpt: 'تعتبر المطاعم من المشاريع الناجحة، والتي تتطلب تفكيراً دقيقاً وتخطيطاً محكماً، حيث يرتبط هذا النوع من المشاريع بشكل وثيق بالجودة والإبداع وخدمة العملاء.', category: 'إرشادات المطاعم' },
+          { title: 'أهمية تجربة العميل في صناعة المطاعم', excerpt: 'تعتبر تجربة العميل في صناعة المطاعم واحدة من العوامل الأساسية التي تحدد نجاح أو فشل المطعم في السوق التنافسي اليوم.', category: 'خدمة العملاء' },
+          { title: 'دليلك في إعداد قائمة التدفقات النقدية', excerpt: 'إعداد قائمة التدفقات النقدية هي أداة مالية مهمة توضح كيفية تدفق الأموال إلى ومن شركتك. دليل شامل لفهم وإعداد هذه القائمة.', category: 'المحاسبة المالية' },
+          { title: 'كيف تقلل تكاليف منشأتك؟', excerpt: 'استراتيجيات فعّالة ومجربة لتقليل التكاليف التشغيلية وزيادة هامش الربح لمنشأتك الصغيرة أو المتوسطة.', category: 'إدارة الأعمال' },
+          { title: 'أهمية التقارير المالية في اتخاذ القرار', excerpt: 'التقارير المالية ليست مجرد أرقام، بل هي أداة استراتيجية تساعدك على فهم وضع منشأتك واتخاذ القرارات الصحيحة.', category: 'المحاسبة المالية' },
+          { title: 'التسويق الرقمي للمطاعم والمقاهي', excerpt: 'كيف تستخدم منصات التواصل الاجتماعي والتسويق الرقمي لزيادة عدد زوار مطعمك وتعزيز ولاء العملاء.', category: 'التسويق الرقمي' },
+        ],
+      },
+      footer: {
+        about: 'عن المكتب',
+        aboutText: 'مؤسسة رائدة متخصصة في الخدمات الإدارية والمحاسبية والتشغيلية والتسويقية للمنشآت الصغيرة والمتوسطة.',
+        quickLinks: 'روابط سريعة',
+        contactInfo: 'معلومات التواصل',
+        followUs: 'تابعنا',
+        rights: 'جميع الحقوق محفوظة',
+        meo: 'مكتب الخبرات المتعددة',
+      },
+    },
+  },
+  en: {
+    translation: {
+      nav: {
+        home: 'Home',
+        about: 'About',
+        services: 'Services',
+        articles: 'Articles',
+        contact: 'Contact',
+        jobs: 'Jobs',
+      },
+      hero: {
+        badge: 'Multiple Experiences Office',
+        title: 'We Manage Your Financial Operations Professionally',
+        subtitle: 'Integrated accounting, administrative, operational and marketing services for your business growth',
+        cta1: 'Get Consultation',
+        cta2: 'Our Services',
+        stats: {
+          years: 'Years Experience',
+          cafes: 'Cafes We Serve',
+          restaurants: 'Restaurants We Serve',
+        },
+      },
+      services: {
+        label: 'Our Services',
+        title: 'Comprehensive Services for Your Growth',
+        subtitle: 'We provide complete, integrated solutions to help you achieve your goals efficiently',
+        items: {
+          accounting: { title: 'Accounting Services', desc: 'Precise financial account management and reports according to the highest professional standards' },
+          admin: { title: 'Administrative Services', desc: 'Restructuring administrative processes and developing systems to increase efficiency' },
+          operational: { title: 'Operational Services', desc: 'Daily operations monitoring, cost reduction and productivity enhancement' },
+          marketing: { title: 'Marketing Services', desc: 'Effective marketing strategies to increase sales and strengthen digital presence' },
+          restaurant: { title: 'Restaurant Consulting', desc: 'Specialized consulting for establishing and developing restaurants and cafes' },
+          systems: { title: 'Smart Systems', desc: 'Integrated technical solutions and intelligent reports to support strategic decisions' },
+        },
+        learnMore: 'Learn More',
+      },
+      why: {
+        label: 'Why Us',
+        title: 'What Makes Us Different',
+        items: {
+          accuracy: { title: 'Accuracy & Quality', desc: 'We commit to the highest standards of accuracy in all our financial and administrative services' },
+          experience: { title: 'Experience & Professionalism', desc: 'A team of specialists with over 10 years of experience serving establishments' },
+          confidentiality: { title: 'Confidentiality & Integrity', desc: 'We maintain complete confidentiality of all client information' },
+          systems: { title: 'Smart Systems', desc: 'Advanced technical systems providing accurate reports to support your decisions' },
+        },
+      },
+      packages: {
+        label: 'Our Packages',
+        title: 'Choose the Right Package',
+        subtitle: 'Packages specially designed to meet your business needs at the best prices',
+        launch: {
+          name: 'Launch Package',
+          desc: 'Ideal for small and emerging businesses',
+          features: ['Monthly account management', 'Periodic financial reports', 'Administrative consulting', 'Phone support', 'Monthly visit'],
+        },
+        business: {
+          name: 'Business Leadership Package',
+          desc: 'Ideal for restaurants, cafes and medium businesses',
+          features: ['All Launch Package features', 'Comprehensive digital marketing', 'Operational management', 'Advanced analytical reports', 'Weekly visits', '24/7 support', 'Complete administrative structure'],
+        },
+        cta: 'Get Started',
+        popular: 'Most Popular',
+        contact: 'Contact Us for Pricing',
+      },
+      testimonials: {
+        label: 'Client Reviews',
+        title: 'What Our Clients Say',
+        items: [
+          { name: 'Ahmed Ibrahim', role: 'Manager, Al Mase Restaurant', text: 'Words cannot express my gratitude for this company. I have been dealing with them for years and their service only improves, reflecting their high professionalism.' },
+          { name: 'Mohammed Ali', role: 'Owner, Al Baraka Restaurant', text: 'Excellent support around the clock, working with integrity and professionalism. I\'ve tried other services but nothing matches this quality and professionalism.' },
+          { name: 'Saad Al-Omari', role: 'Cafe Owner', text: 'MEO services transformed how I manage my business. The accurate financial reports helped me make the right decisions and significantly increase my profits.' },
+        ],
+      },
+      cta: {
+        title: 'Start Your Journey Toward Sustainable Financial Growth',
+        subtitle: 'Contact us today and discover how we can help develop your business',
+        button: 'Contact Us',
+      },
+      about: {
+        title: 'About Multiple Experiences Office',
+        badge: 'Our Story',
+        story: 'A leading institution specializing in administrative, accounting and marketing development services, with a new approach and innovative thinking. We offer clients services and consultations that achieve excellence at the lowest cost and highest effectiveness.',
+        story2: 'We have a team of accountants and consultants to achieve success for your establishment, serving small and medium enterprises across the Kingdom with unique administrative, accounting, operational and marketing services.',
+        vision: {
+          label: 'Our Vision',
+          text: 'To be a trusted partner for small and medium enterprises, contributing to the development, growth and sustainability of their investments. Completing our work correctly to improve establishment efficiency in the shortest time.',
+        },
+        mission: {
+          label: 'Our Mission',
+          text: 'We strive to provide comprehensive and accurate administrative, accounting, operational and marketing services to our clients, reducing operational costs while increasing productivity and profitability, with strict confidentiality.',
+        },
+        values: {
+          label: 'Our Values',
+          title: 'The Values That Guide Our Work',
+          items: [
+            { title: 'Innovation', desc: 'We constantly seek innovative solutions to meet market requirements' },
+            { title: 'Leadership', desc: 'We lead change and stay at the forefront of competition in our field' },
+            { title: 'Excellence', desc: 'We continuously elevate our service standards to exceed client expectations' },
+            { title: 'Professionalism', desc: 'We commit to the highest professional standards in everything we offer' },
+          ],
+        },
+        location: 'Our office is physically located in Jazan city. Clients can visit during official working hours.',
+      },
+      contact: {
+        title: 'Contact Us',
+        badge: "We're Here to Help",
+        subtitle: 'We have the expertise to develop your administrative, accounting, operational and marketing business',
+        phone: 'Phone',
+        email: 'Email',
+        address: 'Address',
+        addressValue: 'Jazan, Saudi Arabia',
+        hours: 'Working Hours',
+        hoursValue: 'Sat – Thu: 10AM – 1PM, 5PM – 9PM | Friday: Closed',
+        form: {
+          name: 'Full Name',
+          email: 'Email Address',
+          phone: 'Phone Number',
+          message: 'Your Message',
+          send: 'Send Message',
+          namePlaceholder: 'Enter your full name',
+          emailPlaceholder: 'Enter your email',
+          phonePlaceholder: '+966 5X XXX XXXX',
+          messagePlaceholder: 'How can we help you?',
+        },
+        social: 'Follow Us',
+      },
+      articles: {
+        label: 'Articles',
+        title: 'What You Need to Know',
+        subtitle: 'Articles and tips from our experts to help you develop your business',
+        readMore: 'Read More',
+        items: [
+          { title: 'How to Establish Your Restaurant?', excerpt: 'Restaurants are considered successful projects that require careful thinking and precise planning, closely related to quality, creativity and customer service.', category: 'Restaurant Guidance' },
+          { title: 'The Importance of Customer Experience in Restaurants', excerpt: 'Customer experience in the restaurant industry is one of the key factors determining success or failure in today\'s competitive market.', category: 'Customer Service' },
+          { title: 'Guide to Preparing Cash Flow Statements', excerpt: 'A cash flow statement is an important financial tool showing how money flows to and from your company. A comprehensive guide to understanding and preparing this statement.', category: 'Financial Accounting' },
+          { title: 'How to Reduce Your Business Costs?', excerpt: 'Effective and proven strategies to reduce operational costs and increase profit margins for your small or medium establishment.', category: 'Business Management' },
+          { title: 'The Importance of Financial Reports in Decision Making', excerpt: 'Financial reports are not just numbers; they are a strategic tool to help you understand your establishment\'s status and make correct decisions.', category: 'Financial Accounting' },
+          { title: 'Digital Marketing for Restaurants & Cafes', excerpt: 'How to use social media and digital marketing to increase restaurant visitors and strengthen customer loyalty.', category: 'Digital Marketing' },
+        ],
+      },
+      footer: {
+        about: 'About',
+        aboutText: 'A leading institution specializing in administrative, accounting, operational and marketing services for small and medium enterprises.',
+        quickLinks: 'Quick Links',
+        contactInfo: 'Contact Info',
+        followUs: 'Follow Us',
+        rights: 'All rights reserved',
+        meo: 'Multiple Experiences Office',
+      },
+    },
+  },
+};
+
+const savedLang = localStorage.getItem('meo-lang') || 'ar';
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: savedLang,
+    fallbackLng: 'ar',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export default i18n;

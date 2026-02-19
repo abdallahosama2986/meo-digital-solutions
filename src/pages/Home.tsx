@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -6,19 +6,19 @@ import { HelmetProvider, Helmet } from 'react-helmet-async';
 import {
   ChevronLeft, ChevronRight, Star, CheckCircle2,
   BarChart3, Shield, Settings, Users, BookOpen,
-  TrendingUp, Award, Lock, Cpu
+  TrendingUp, Award, Lock, Cpu, ArrowLeft, ArrowRight
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 import heroIllustration from '@/assets/hero-illustration.jpg';
 
 const serviceIcons = [
-  <BarChart3 size={28} />,
-  <Settings size={28} />,
-  <TrendingUp size={28} />,
-  <Users size={28} />,
-  <BookOpen size={28} />,
-  <Cpu size={28} />,
+  <BarChart3 size={24} />,
+  <Settings size={24} />,
+  <TrendingUp size={24} />,
+  <Users size={24} />,
+  <BookOpen size={24} />,
+  <Cpu size={24} />,
 ];
 
 const whyIcons = [
@@ -27,6 +27,63 @@ const whyIcons = [
   <Lock size={32} />,
   <Cpu size={32} />,
 ];
+
+const partnerLogos = [
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-9.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-8.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-7.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-6.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-5.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-4.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-3.jpg',
+  'https://alkhebrat.sa/wp-content/uploads/2024/11/3-Copy-2.jpg',
+];
+
+// Infinite Marquee Component
+const InfiniteMarquee: React.FC<{ logos: string[]; speed?: number }> = ({ logos, speed = 35 }) => {
+  const doubled = [...logos, ...logos];
+  return (
+    <div className="relative overflow-hidden w-full" dir="ltr">
+      {/* Left fade */}
+      <div className="absolute left-0 top-0 h-full w-24 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to right, hsl(var(--background)), transparent)' }} />
+      {/* Right fade */}
+      <div className="absolute right-0 top-0 h-full w-24 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }} />
+
+      <div
+        className="flex gap-8 items-center"
+        style={{
+          animation: `marquee-scroll ${speed}s linear infinite`,
+          width: 'max-content',
+        }}
+      >
+        {doubled.map((src, i) => (
+          <div
+            key={i}
+            className="flex-shrink-0 w-28 h-20 flex items-center justify-center bg-white rounded-xl border border-border p-3 shadow-sm"
+          >
+            <img
+              src={src}
+              alt={`Partner ${(i % logos.length) + 1}`}
+              className="max-h-full max-w-full object-contain"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes marquee-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  );
+};
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -52,51 +109,47 @@ const Home: React.FC = () => {
         <meta name="description" content="مكتب الخبرات المتعددة للاستشارات التجارية - خدمات محاسبية وإدارية وتشغيلية وتسويقية متكاملة للمنشآت الصغيرة والمتوسطة في المملكة العربية السعودية" />
       </Helmet>
 
-      {/* ─── HERO ─── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-hero">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <img
-            src={heroIllustration}
-            alt=""
-            className="w-full h-full object-cover opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-hero/60 via-hero/40 to-hero" />
-        </div>
-
-        {/* Decorative gold shapes */}
-        <div className="absolute top-1/4 start-1/4 w-64 h-64 rounded-full bg-gold/5 blur-3xl" />
-        <div className="absolute bottom-1/3 end-1/4 w-96 h-96 rounded-full bg-gold/8 blur-3xl" />
-        <div className="absolute top-0 end-0 w-px h-2/3 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+      {/* ─── HERO (Light) ─── */}
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        {/* Gold accent blobs */}
+        <div className="absolute top-1/4 end-1/3 w-72 h-72 rounded-full bg-gold/8 blur-3xl" />
+        <div className="absolute bottom-1/4 start-1/4 w-96 h-96 rounded-full bg-gold/5 blur-3xl" />
+        <div className="absolute top-0 end-0 w-1/2 h-full bg-gradient-to-l from-gold/5 to-transparent" />
 
         <div className="container-custom relative z-10 pt-28 pb-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left / Text */}
-            <div className={isRTL ? 'order-1' : 'order-1'}>
+            {/* Text */}
+            <div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/40 bg-gold/10 mb-6"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/8 mb-6"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className={`text-gold text-sm font-medium ${fontClass}`}>{t('hero.badge')}</span>
+                <span className={`text-gold text-sm font-semibold ${fontClass}`}>{t('hero.badge')}</span>
               </motion.div>
 
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className={`text-hero text-white mb-6 leading-tight ${fontClass}`}
+                className={`text-hero text-foreground mb-6 leading-tight ${fontClass}`}
               >
-                {t('hero.title')}
+                <span className="text-gradient-gold">{isRTL ? 'ندير' : 'We Manage'} </span>
+                {isRTL
+                  ? 'حساباتك المالية باحتراف'
+                  : 'Your Financial Operations Professionally'}
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className={`text-white/70 text-lg mb-10 leading-relaxed max-w-lg ${fontClass}`}
+                className={`text-muted-foreground text-lg mb-10 leading-relaxed max-w-lg ${fontClass}`}
               >
                 {t('hero.subtitle')}
               </motion.p>
@@ -105,7 +158,7 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className={`flex flex-wrap gap-4 ${isRTL ? 'flex-row' : 'flex-row'}`}
+                className="flex flex-wrap gap-4"
               >
                 <Link
                   to="/contact"
@@ -115,7 +168,7 @@ const Home: React.FC = () => {
                 </Link>
                 <Link
                   to="/services"
-                  className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/30 text-white font-semibold text-sm hover:border-gold hover:text-gold transition-all duration-300 ${fontClass}`}
+                  className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-gold/40 text-foreground font-semibold text-sm hover:border-gold hover:text-gold transition-all duration-300 ${fontClass}`}
                 >
                   {t('hero.cta2')}
                 </Link>
@@ -126,7 +179,7 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="flex gap-8 mt-14 pt-10 border-t border-white/10"
+                className="flex gap-10 mt-14 pt-10 border-t border-border"
               >
                 {[
                   { value: '10+', label: t('hero.stats.years') },
@@ -135,32 +188,32 @@ const Home: React.FC = () => {
                 ].map((stat, i) => (
                   <div key={i}>
                     <div className={`text-3xl font-bold text-gradient-gold ${fontClass}`}>{stat.value}</div>
-                    <div className={`text-white/50 text-xs mt-1 ${fontClass}`}>{stat.label}</div>
+                    <div className={`text-muted-foreground text-xs mt-1 ${fontClass}`}>{stat.label}</div>
                   </div>
                 ))}
               </motion.div>
             </div>
 
-            {/* Right / Illustration */}
+            {/* Illustration */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, x: isRTL ? -40 : 40 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 0.9, delay: 0.3, ease: 'easeOut' }}
               className="hidden lg:block relative"
             >
-              <div className="relative rounded-2xl overflow-hidden border border-gold/20 shadow-2xl">
+              <div className="relative rounded-3xl overflow-hidden border border-gold/20 shadow-card">
                 <img
                   src={heroIllustration}
                   alt="Financial Growth"
-                  className="w-full h-80 object-cover"
+                  className="w-full h-[480px] object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-hero/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
               </div>
               {/* Floating card */}
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                className="absolute -bottom-6 -start-8 bg-card/90 backdrop-blur-sm border border-gold/20 rounded-xl p-4 shadow-gold"
+                className="absolute -bottom-6 -start-8 bg-card border border-gold/20 rounded-2xl p-4 shadow-gold"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center">
@@ -186,42 +239,69 @@ const Home: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* ─── SERVICES ─── */}
-      <section className="section-padding bg-background">
+      {/* ─── SERVICES (Reference Style) ─── */}
+      <section className="section-padding bg-muted/20">
         <div className="container-custom">
-          <AnimatedSection className="text-center mb-16">
+          <AnimatedSection className="mb-12">
             <span className={`section-label ${fontClass}`}>{t('services.label')}</span>
-            <h2 className={`text-display font-bold text-foreground mt-3 mb-4 ${fontClass}`}>{t('services.title')}</h2>
-            <p className={`text-muted-foreground max-w-2xl mx-auto text-lg ${fontClass}`}>{t('services.subtitle')}</p>
+            <h2 className={`text-display font-bold text-foreground mt-3 mb-3 max-w-xl ${fontClass}`}>
+              {isRTL
+                ? <><span className="text-gradient-gold">خدماتنا</span> {' '}المتكاملة لنمو منشأتك</>
+                : <><span className="text-gradient-gold">Our</span> Integrated Services</>
+              }
+            </h2>
+            <p className={`text-muted-foreground text-base leading-relaxed ${fontClass}`}>{t('services.subtitle')}</p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {serviceKeys.map((key, i) => (
-              <AnimatedSection key={key} delay={i * 0.07}>
-                <motion.div
-                  className="card-premium card-gold-hover group p-7 rounded-2xl border border-border bg-card h-full cursor-pointer"
-                  whileHover={{ y: -4 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                  <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold mb-5 group-hover:bg-gold group-hover:text-white transition-all duration-300">
-                    {serviceIcons[i]}
+          {/* Horizontal scroll cards — reference style */}
+          <div className="overflow-x-auto scrollbar-hide pb-4">
+            <div className="flex gap-5 flex-wrap lg:flex-nowrap" style={{ minWidth: 'max-content' }}>
+              {serviceKeys.map((key, i) => (
+                <AnimatedSection key={key} delay={i * 0.07} className="flex-shrink-0 w-full sm:w-[420px]">
+                  <div className="bg-card rounded-2xl border border-border/60 hover:border-gold/40 p-6 flex flex-col h-full transition-all duration-300 group shadow-card hover:shadow-card-hover"
+                    style={{ paddingBottom: 0 }}>
+                    {/* Header */}
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div className="flex flex-col gap-2">
+                        <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
+                          {serviceIcons[i]}
+                        </div>
+                        <div>
+                          <h3 className={`text-xl font-bold text-foreground leading-tight tracking-tight ${fontClass}`}>
+                            {t(`services.items.${key}.title`)}
+                          </h3>
+                          <div className="h-0.5 w-20 rounded-full bg-gold/40 mt-1.5" />
+                        </div>
+                      </div>
+                      <Link
+                        to="/services"
+                        className={`flex items-center gap-1 text-muted-foreground font-medium hover:text-gold transition-colors text-sm whitespace-nowrap hover:underline ${fontClass}`}
+                      >
+                        <span>{isRTL ? 'اعرف المزيد' : 'Learn More'}</span>
+                        <span>{isRTL ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}</span>
+                      </Link>
+                    </div>
+
+                    {/* Body + image */}
+                    <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                      <div className={`flex-1 mb-4 text-muted-foreground text-sm leading-relaxed ${fontClass}`}>
+                        <p>{t(`services.items.${key}.desc`)}</p>
+                      </div>
+                      {/* Decorative image strip */}
+                      <div className="flex items-end justify-end sm:w-[40%]">
+                        <div className="bg-gold/5 rounded-xl rounded-bl-none rounded-br-none p-4 pb-0 w-full">
+                          <div className="w-full h-24 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-2xl bg-gold/15 flex items-center justify-center text-gold opacity-60">
+                              {serviceIcons[i]}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className={`text-lg font-bold text-foreground mb-3 ${fontClass}`}>
-                    {t(`services.items.${key}.title`)}
-                  </h3>
-                  <p className={`text-muted-foreground text-sm leading-relaxed mb-5 ${fontClass}`}>
-                    {t(`services.items.${key}.desc`)}
-                  </p>
-                  <Link
-                    to="/services"
-                    className={`inline-flex items-center gap-1 text-gold text-sm font-semibold hover:gap-2 transition-all ${fontClass}`}
-                  >
-                    {t('services.learnMore')}
-                    {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-                  </Link>
-                </motion.div>
-              </AnimatedSection>
-            ))}
+                </AnimatedSection>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -247,6 +327,20 @@ const Home: React.FC = () => {
               </AnimatedSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ─── PARTNERS MARQUEE ─── */}
+      <section className="section-padding bg-background">
+        <div className="container-custom">
+          <AnimatedSection className="text-center mb-12">
+            <span className={`section-label ${fontClass}`}>{isRTL ? 'شركاؤنا' : 'Our Partners'}</span>
+            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>
+              {isRTL ? 'موثوق من قبل شركات رائدة' : 'Trusted by Leading Companies'}
+            </h2>
+          </AnimatedSection>
+
+          <InfiniteMarquee logos={partnerLogos} speed={30} />
         </div>
       </section>
 
@@ -285,7 +379,6 @@ const Home: React.FC = () => {
             {/* Business Package */}
             <AnimatedSection delay={0.2}>
               <div className="relative bg-hero border border-gold/40 rounded-2xl p-8 h-full shadow-gold overflow-hidden">
-                {/* Popular badge */}
                 <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} px-3 py-1 rounded-full bg-gradient-gold text-white text-xs font-bold ${fontClass}`}>
                   {t('packages.popular')}
                 </div>
@@ -329,9 +422,7 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.4 }}
                 className="bg-card border border-border rounded-2xl p-10 text-center card-premium"
               >
-                {/* Gold line */}
                 <div className="w-12 h-0.5 bg-gradient-gold mx-auto mb-6" />
-                {/* Stars */}
                 <div className="flex justify-center gap-1 mb-6">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={18} className="text-gold fill-gold" />
@@ -347,7 +438,6 @@ const Home: React.FC = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* Controls */}
             <div className="flex items-center justify-center gap-3 mt-6">
               {testimonials.map((_, i) => (
                 <button
@@ -369,7 +459,7 @@ const Home: React.FC = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
         <div className="container-custom relative z-10 text-center">
           <AnimatedSection>
-            <span className={`section-label ${fontClass}`}>{isRTL ? 'ابدأ الآن' : "Start Now"}</span>
+            <span className={`section-label ${fontClass}`}>{isRTL ? 'ابدأ الآن' : 'Start Now'}</span>
             <h2 className={`text-display font-bold text-white mt-4 mb-6 max-w-2xl mx-auto ${fontClass}`}>
               {t('cta.title')}
             </h2>

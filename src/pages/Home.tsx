@@ -139,10 +139,48 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className={`text-hero text-foreground mb-6 leading-tight ${fontClass}`}
               >
-                <span className="text-gradient-gold">{isRTL ? 'ندير' : 'We Manage'} </span>
-                {isRTL
-                  ? 'حساباتك المالية باحتراف'
-                  : 'Your Financial Operations Professionally'}
+                {isRTL ? (
+                  <>
+                    <span className="text-gradient-gold">ندير </span>
+                    {'حساباتك المالية '}
+                    <motion.span
+                      initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      transition={{ duration: 0.7, delay: 0.8 }}
+                      className="inline-block relative"
+                    >
+                      <span className="text-gradient-gold">باحتراف</span>
+                      {/* Underline animated */}
+                      <motion.span
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
+                        style={{ background: 'var(--gradient-gold)' }}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.5, delay: 1.4 }}
+                      />
+                    </motion.span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-gradient-gold">We Manage </span>
+                    {'Your Financial Operations '}
+                    <motion.span
+                      initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      transition={{ duration: 0.7, delay: 0.8 }}
+                      className="inline-block relative"
+                    >
+                      <span className="text-gradient-gold">Professionally</span>
+                      <motion.span
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
+                        style={{ background: 'var(--gradient-gold)' }}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.5, delay: 1.4 }}
+                      />
+                    </motion.span>
+                  </>
+                )}
               </motion.h1>
 
               <motion.p
@@ -253,76 +291,69 @@ const Home: React.FC = () => {
             <p className={`text-muted-foreground text-base leading-relaxed ${fontClass}`}>{t('services.subtitle')}</p>
           </AnimatedSection>
 
-          {/* Horizontal scroll cards — reference style */}
-          <div className="overflow-x-auto scrollbar-hide pb-4">
-            <div className="flex gap-5 flex-wrap lg:flex-nowrap" style={{ minWidth: 'max-content' }}>
-              {serviceKeys.map((key, i) => (
-                <AnimatedSection key={key} delay={i * 0.07} className="flex-shrink-0 w-full sm:w-[420px]">
-                  <div className="bg-card rounded-2xl border border-border/60 hover:border-gold/40 p-6 flex flex-col h-full transition-all duration-300 group shadow-card hover:shadow-card-hover"
-                    style={{ paddingBottom: 0 }}>
-                    {/* Header */}
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <div className="flex flex-col gap-2">
-                        <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
-                          {serviceIcons[i]}
-                        </div>
-                        <div>
-                          <h3 className={`text-xl font-bold text-foreground leading-tight tracking-tight ${fontClass}`}>
-                            {t(`services.items.${key}.title`)}
-                          </h3>
-                          <div className="h-0.5 w-20 rounded-full bg-gold/40 mt-1.5" />
-                        </div>
-                      </div>
+          {/* Responsive 2-col grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {serviceKeys.map((key, i) => (
+              <AnimatedSection key={key} delay={i * 0.07}>
+                <motion.div
+                  className="group bg-card rounded-2xl border border-border hover:border-gold/40 p-7 flex gap-5 transition-all duration-300 shadow-card hover:shadow-card-hover h-full relative overflow-hidden"
+                  whileHover={{ y: -3 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
+                  {/* Top-right gold circle decoration */}
+                  <div className="absolute top-0 end-0 w-24 h-24 rounded-bl-full bg-gold/5 group-hover:bg-gold/10 transition-all duration-500" />
+
+                  {/* Icon */}
+                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gradient-gold group-hover:text-white transition-all duration-300 self-start mt-1">
+                    {serviceIcons[i]}
+                  </div>
+
+                  {/* Content */}
+                  <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <h3 className={`text-lg font-bold text-foreground leading-tight ${fontClass}`}>
+                        {t(`services.items.${key}.title`)}
+                      </h3>
                       <Link
                         to="/services"
-                        className={`flex items-center gap-1 text-muted-foreground font-medium hover:text-gold transition-colors text-sm whitespace-nowrap hover:underline ${fontClass}`}
+                        className={`flex-shrink-0 flex items-center gap-1 text-muted-foreground hover:text-gold transition-colors text-xs font-medium ${fontClass}`}
                       >
-                        <span>{isRTL ? 'اعرف المزيد' : 'Learn More'}</span>
-                        <span>{isRTL ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}</span>
+                        {isRTL ? 'المزيد' : 'More'}
+                        {isRTL ? <ArrowLeft size={12} /> : <ArrowRight size={12} />}
                       </Link>
                     </div>
-
-                    {/* Body + image */}
-                    <div className="flex flex-col sm:flex-row gap-4 flex-1">
-                      <div className={`flex-1 mb-4 text-muted-foreground text-sm leading-relaxed ${fontClass}`}>
-                        <p>{t(`services.items.${key}.desc`)}</p>
-                      </div>
-                      {/* Decorative image strip */}
-                      <div className="flex items-end justify-end sm:w-[40%]">
-                        <div className="bg-gold/5 rounded-xl rounded-bl-none rounded-br-none p-4 pb-0 w-full">
-                          <div className="w-full h-24 flex items-center justify-center">
-                            <div className="w-16 h-16 rounded-2xl bg-gold/15 flex items-center justify-center text-gold opacity-60">
-                              {serviceIcons[i]}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="h-0.5 w-10 rounded-full bg-gold/30 mb-3 group-hover:w-16 transition-all duration-500" />
+                    <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>
+                      {t(`services.items.${key}.desc`)}
+                    </p>
                   </div>
-                </AnimatedSection>
-              ))}
-            </div>
+                </motion.div>
+              </AnimatedSection>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ─── WHY US ─── */}
-      <section className="section-padding dark-section">
-        <div className="container-custom">
+      {/* ─── WHY US (Light) ─── */}
+      <section className="section-padding bg-muted/30 relative overflow-hidden">
+        {/* Subtle blob */}
+        <div className="absolute top-0 end-0 w-72 h-72 rounded-full bg-gold/6 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 start-0 w-64 h-64 rounded-full bg-gold/4 blur-3xl pointer-events-none" />
+        <div className="container-custom relative z-10">
           <AnimatedSection className="text-center mb-16">
             <span className={`section-label ${fontClass}`}>{t('why.label')}</span>
-            <h2 className={`text-display font-bold text-white mt-3 ${fontClass}`}>{t('why.title')}</h2>
+            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>{t('why.title')}</h2>
           </AnimatedSection>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyKeys.map((key, i) => (
               <AnimatedSection key={key} delay={i * 0.1}>
-                <div className="text-center p-8 rounded-2xl border border-white/10 bg-white/5 hover:border-gold/40 hover:bg-gold/5 transition-all duration-300 group h-full">
-                  <div className="text-gold mx-auto mb-5 inline-block group-hover:scale-110 transition-transform duration-300">
+                <div className="text-center p-8 rounded-2xl border border-border bg-card hover:border-gold/40 hover:shadow-card-hover transition-all duration-300 group h-full card-premium card-gold-hover">
+                  <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center text-gold mx-auto mb-5 group-hover:bg-gradient-gold group-hover:text-white transition-all duration-300">
                     {whyIcons[i]}
                   </div>
-                  <h3 className={`text-white font-bold text-lg mb-3 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
-                  <p className={`text-white/50 text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
+                  <h3 className={`text-foreground font-bold text-lg mb-3 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
+                  <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -378,15 +409,17 @@ const Home: React.FC = () => {
 
             {/* Business Package */}
             <AnimatedSection delay={0.2}>
-              <div className="relative bg-hero border border-gold/40 rounded-2xl p-8 h-full shadow-gold overflow-hidden">
+              <div className="relative bg-card border-2 border-gold/50 rounded-2xl p-8 h-full shadow-gold overflow-hidden card-premium">
+                {/* Decorative blob */}
+                <div className="absolute top-0 end-0 w-40 h-40 rounded-bl-full bg-gold/8 pointer-events-none" />
                 <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} px-3 py-1 rounded-full bg-gradient-gold text-white text-xs font-bold ${fontClass}`}>
                   {t('packages.popular')}
                 </div>
                 <div className={`text-sm font-semibold text-gold mb-2 ${fontClass}`}>{t('packages.business.name')}</div>
-                <p className={`text-white/60 text-sm mb-8 ${fontClass}`}>{t('packages.business.desc')}</p>
+                <p className={`text-muted-foreground text-sm mb-8 ${fontClass}`}>{t('packages.business.desc')}</p>
                 <ul className="space-y-3 mb-8">
                   {(t('packages.business.features', { returnObjects: true }) as string[]).map((f, i) => (
-                    <li key={i} className={`flex items-center gap-3 text-sm text-white/80 ${isRTL ? 'flex-row-reverse' : ''} ${fontClass}`}>
+                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? 'flex-row-reverse' : ''} ${fontClass}`}>
                       <CheckCircle2 size={16} className="text-gold flex-shrink-0" />
                       {f}
                     </li>
@@ -453,23 +486,31 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── CTA ─── */}
-      <section className="relative py-28 dark-section overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero opacity-50" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
+      {/* ─── CTA (Light) ─── */}
+      <section className="relative py-28 bg-muted/20 overflow-hidden">
+        {/* Gold blobs */}
+        <div className="absolute top-0 start-0 w-80 h-80 rounded-full bg-gold/6 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 end-0 w-96 h-96 rounded-full bg-gold/5 blur-[120px] pointer-events-none" />
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.035] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '32px 32px' }}
+        />
         <div className="container-custom relative z-10 text-center">
           <AnimatedSection>
-            <span className={`section-label ${fontClass}`}>{isRTL ? 'ابدأ الآن' : 'Start Now'}</span>
-            <h2 className={`text-display font-bold text-white mt-4 mb-6 max-w-2xl mx-auto ${fontClass}`}>
-              {t('cta.title')}
-            </h2>
-            <p className={`text-white/60 max-w-xl mx-auto mb-10 text-lg ${fontClass}`}>{t('cta.subtitle')}</p>
-            <Link
-              to="/contact"
-              className={`inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-gold text-white font-bold text-base shadow-gold hover:shadow-xl hover:scale-105 transition-all duration-300 ${fontClass}`}
-            >
-              {t('cta.button')}
-            </Link>
+            <div className="max-w-3xl mx-auto">
+              <span className={`section-label ${fontClass}`}>{isRTL ? 'ابدأ الآن' : 'Start Now'}</span>
+              <h2 className={`text-display font-bold text-foreground mt-4 mb-6 ${fontClass}`}>
+                {t('cta.title')}
+              </h2>
+              <p className={`text-muted-foreground max-w-xl mx-auto mb-10 text-lg ${fontClass}`}>{t('cta.subtitle')}</p>
+              <Link
+                to="/contact"
+                className={`inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-gold text-white font-bold text-base shadow-gold hover:shadow-xl hover:scale-105 transition-all duration-300 ${fontClass}`}
+              >
+                {t('cta.button')}
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>

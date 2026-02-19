@@ -34,9 +34,19 @@ const Contact: React.FC = () => {
         <meta name="description" content={t('contact.subtitle')} />
       </Helmet>
 
-      {/* Hero */}
-      <section className="relative pt-40 pb-24 dark-section">
-        <div className="absolute inset-0 bg-gradient-hero opacity-80" />
+      {/* ─── Hero (Light) ─── */}
+      <section className="relative pt-40 pb-28 overflow-hidden bg-background">
+        {/* Blobs */}
+        <div className="absolute top-0 end-0 w-[500px] h-[500px] rounded-full bg-gold/8 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 start-1/3 w-[350px] h-[350px] rounded-full bg-gold/5 blur-[90px] pointer-events-none" />
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+        />
+        {/* Gold line accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+
         <div className="container-custom relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -44,8 +54,9 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className={`section-label ${fontClass}`}>{t('contact.badge')}</span>
-            <h1 className={`text-display font-bold text-white mt-4 ${fontClass}`}>{t('contact.title')}</h1>
-            <p className={`text-white/60 max-w-xl mx-auto mt-4 ${fontClass}`}>{t('contact.subtitle')}</p>
+            <h1 className={`text-display font-bold text-foreground mt-4 ${fontClass}`}>{t('contact.title')}</h1>
+            <p className={`text-muted-foreground max-w-xl mx-auto mt-4 ${fontClass}`}>{t('contact.subtitle')}</p>
+            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'var(--gradient-gold)' }} />
           </motion.div>
         </div>
       </section>

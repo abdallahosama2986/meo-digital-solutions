@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-card/95 backdrop-blur-md shadow-card border-b border-border'
-            : 'bg-transparent'
+            : 'bg-white/80 backdrop-blur-sm border-b border-border/30'
         }`}
         initial={{ y: -80 }}
         animate={{ y: 0 }}
@@ -63,9 +63,7 @@ const Navbar: React.FC = () => {
                 className={`nav-link text-sm font-medium transition-colors ${
                   isActive(link.href)
                     ? 'text-gold active'
-                    : scrolled
-                    ? 'text-foreground hover:text-gold'
-                    : 'text-white/90 hover:text-gold'
+                    : 'text-foreground hover:text-gold'
                 } ${isRTL ? 'font-tajawal' : 'font-poppins'}`}
               >
                 {link.label}
@@ -78,11 +76,7 @@ const Navbar: React.FC = () => {
             {/* Language toggle */}
             <button
               onClick={toggleLanguage}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
-                scrolled
-                  ? 'border-border text-foreground hover:border-gold hover:text-gold'
-                  : 'border-white/30 text-white/90 hover:border-gold hover:text-gold'
-              }`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border text-foreground hover:border-gold hover:text-gold transition-all duration-200"
             >
               <Globe size={14} />
               {lang === 'ar' ? 'EN' : 'عر'}
@@ -91,11 +85,7 @@ const Navbar: React.FC = () => {
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full transition-all duration-200 ${
-                scrolled
-                  ? 'text-foreground hover:text-gold hover:bg-muted'
-                  : 'text-white/90 hover:text-gold'
-              }`}
+              className="p-2 rounded-full text-foreground hover:text-gold hover:bg-muted transition-all duration-200"
             >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
@@ -111,9 +101,7 @@ const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <button
-            className={`md:hidden p-2 rounded-lg transition-colors ${
-              scrolled ? 'text-foreground' : 'text-white'
-            }`}
+            className="md:hidden p-2 rounded-lg text-foreground transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}

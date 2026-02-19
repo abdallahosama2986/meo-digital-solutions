@@ -22,12 +22,21 @@ const About: React.FC = () => {
         <meta name="description" content={t('about.story')} />
       </Helmet>
 
-      {/* Hero */}
-      <section className="relative pt-40 pb-24 dark-section overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={aboutImage} alt="" className="w-full h-full object-cover opacity-15" />
-          <div className="absolute inset-0 bg-gradient-to-b from-hero via-hero/80 to-hero" />
-        </div>
+      {/* ─── Hero (Light) ─── */}
+      <section className="relative pt-40 pb-28 overflow-hidden bg-background">
+        {/* Blobs */}
+        <div className="absolute top-0 end-0 w-[500px] h-[500px] rounded-full bg-gold/8 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 start-0 w-[400px] h-[400px] rounded-full bg-gold/5 blur-[100px] pointer-events-none" />
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+        />
+        {/* Decorative arc */}
+        <svg className="absolute bottom-0 left-0 right-0 w-full text-gold/10 pointer-events-none" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 80 Q720 0 1440 80" stroke="currentColor" strokeWidth="2" fill="none" />
+        </svg>
+
         <div className="container-custom relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -35,9 +44,10 @@ const About: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className={`section-label ${fontClass}`}>{t('about.badge')}</span>
-            <h1 className={`text-display font-bold text-white mt-4 max-w-3xl mx-auto ${fontClass}`}>
+            <h1 className={`text-display font-bold text-foreground mt-4 max-w-3xl mx-auto ${fontClass}`}>
               {t('about.title')}
             </h1>
+            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'var(--gradient-gold)' }} />
           </motion.div>
         </div>
       </section>
@@ -49,7 +59,7 @@ const About: React.FC = () => {
             <AnimatedSection direction={isRTL ? 'right' : 'left'}>
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
                 <img src={aboutImage} alt="MEO Office" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-hero/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 {/* Stats overlay */}
                 <div className="absolute bottom-4 start-4 end-4 grid grid-cols-3 gap-3">
                   {[
@@ -57,7 +67,7 @@ const About: React.FC = () => {
                     { v: '20+', l: isRTL ? 'مقهى' : 'Cafes' },
                     { v: '15+', l: isRTL ? 'مطعم' : 'Restaurants' },
                   ].map((s, i) => (
-                    <div key={i} className="bg-card/80 backdrop-blur-sm rounded-xl p-3 text-center border border-gold/20">
+                    <div key={i} className="bg-white/90 backdrop-blur-sm rounded-xl p-3 text-center border border-gold/20">
                       <div className={`text-2xl font-bold text-gradient-gold ${fontClass}`}>{s.v}</div>
                       <div className={`text-xs text-foreground/70 ${fontClass}`}>{s.l}</div>
                     </div>
@@ -81,27 +91,33 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Vision & Mission */}
-      <section className="section-padding dark-section">
+      {/* Vision & Mission — light version */}
+      <section className="section-padding bg-muted/30">
         <div className="container-custom">
+          <AnimatedSection className="text-center mb-12">
+            <span className={`section-label ${fontClass}`}>{isRTL ? 'رؤيتنا ورسالتنا' : 'Vision & Mission'}</span>
+            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>
+              {isRTL ? 'ما نسعى إليه' : 'What We Strive For'}
+            </h2>
+          </AnimatedSection>
           <div className="grid md:grid-cols-2 gap-8">
             <AnimatedSection delay={0.1}>
-              <div className="p-8 rounded-2xl border border-white/10 bg-white/5 hover:border-gold/40 transition-all duration-300 h-full">
-                <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold mb-6">
+              <div className="p-8 rounded-2xl border border-gold/20 bg-card hover:border-gold/50 hover:shadow-card-hover transition-all duration-300 h-full group card-premium">
+                <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold mb-6 group-hover:bg-gradient-gold group-hover:text-white transition-all duration-300">
                   <Eye size={24} />
                 </div>
-                <h3 className={`text-xl font-bold text-white mb-4 ${fontClass}`}>{t('about.vision.label')}</h3>
-                <p className={`text-white/60 leading-relaxed ${fontClass}`}>{t('about.vision.text')}</p>
+                <h3 className={`text-xl font-bold text-foreground mb-4 ${fontClass}`}>{t('about.vision.label')}</h3>
+                <p className={`text-muted-foreground leading-relaxed ${fontClass}`}>{t('about.vision.text')}</p>
               </div>
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
-              <div className="p-8 rounded-2xl border border-gold/30 bg-gold/5 h-full">
+              <div className="p-8 rounded-2xl border border-gold/30 bg-gold/5 hover:border-gold/60 hover:shadow-card-hover transition-all duration-300 h-full group card-premium">
                 <div className="w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center text-white mb-6">
                   <Target size={24} />
                 </div>
-                <h3 className={`text-xl font-bold text-white mb-4 ${fontClass}`}>{t('about.mission.label')}</h3>
-                <p className={`text-white/60 leading-relaxed ${fontClass}`}>{t('about.mission.text')}</p>
+                <h3 className={`text-xl font-bold text-foreground mb-4 ${fontClass}`}>{t('about.mission.label')}</h3>
+                <p className={`text-muted-foreground leading-relaxed ${fontClass}`}>{t('about.mission.text')}</p>
               </div>
             </AnimatedSection>
           </div>

@@ -504,30 +504,43 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── CTA (Light) ─── */}
-      <section className="relative py-28 bg-muted/20 overflow-hidden">
-        {/* Gold blobs */}
-        <div className="absolute top-0 start-0 w-80 h-80 rounded-full bg-gold/6 blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 end-0 w-96 h-96 rounded-full bg-gold/5 blur-[120px] pointer-events-none" />
-        {/* Dot grid */}
-        <div
-          className="absolute inset-0 opacity-[0.035] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '32px 32px' }}
-        />
-        <div className="container-custom relative z-10 text-center">
+      {/* ─── CTA (Gold Card) ─── */}
+      <section className="py-20 bg-background">
+        <div className="container-custom">
           <AnimatedSection>
-            <div className="max-w-3xl mx-auto">
-              <span className={`section-label ${fontClass}`}>{isRTL ? 'ابدأ الآن' : 'Start Now'}</span>
-              <h2 className={`text-display font-bold text-foreground mt-4 mb-6 ${fontClass}`}>
-                {t('cta.title')}
-              </h2>
-              <p className={`text-muted-foreground max-w-xl mx-auto mb-10 text-lg ${fontClass}`}>{t('cta.subtitle')}</p>
-              <Link
-                to="/contact"
-                className={`inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-gold text-white font-bold text-base shadow-gold hover:shadow-xl hover:scale-105 transition-all duration-300 ${fontClass}`}
-              >
-                {t('cta.button')}
-              </Link>
+            <div
+              className="relative rounded-2xl py-14 px-6 overflow-hidden text-center"
+              style={{
+                background: 'linear-gradient(135deg, hsl(38 50% 57%), hsl(36 55% 42%))',
+              }}
+            >
+              {/* Decorative pattern overlay */}
+              <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%), radial-gradient(circle at 60% 80%, rgba(255,255,255,0.12) 0%, transparent 45%)`,
+                }}
+              />
+              {/* Geometric shapes */}
+              <div className="absolute top-0 start-0 w-32 h-32 rounded-full bg-white/10 -translate-x-1/2 -translate-y-1/2" />
+              <div className="absolute bottom-0 end-0 w-48 h-48 rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
+              <div className="absolute top-1/2 end-10 w-20 h-20 rounded-full border border-white/10" />
+
+              <div className="relative z-10 max-w-3xl mx-auto">
+                <h2 className={`text-2xl md:text-4xl font-bold text-white mb-6 ${fontClass}`}>
+                  {t('cta.title')}
+                </h2>
+                <p className={`text-lg md:text-xl text-white/85 mb-8 max-w-2xl mx-auto ${fontClass}`}>
+                  {t('cta.subtitle')}
+                </p>
+                <Link
+                  to="/contact"
+                  className={`inline-flex items-center gap-2 bg-white text-gold-dark hover:bg-white/90 text-lg px-10 py-3.5 rounded-full shadow-xl font-bold transition-all duration-300 hover:scale-105 ${fontClass}`}
+                >
+                  {t('cta.button')}
+                  {isRTL ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
+                </Link>
+              </div>
             </div>
           </AnimatedSection>
         </div>

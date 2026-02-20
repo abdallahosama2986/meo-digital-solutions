@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroIllustration from '@/assets/hero-illustration.jpg';
+import HeroIllustration from '@/components/HeroIllustration';
 
 const serviceIcons = [
   <BarChart3 size={24} />,
@@ -234,35 +234,12 @@ const Home: React.FC = () => {
 
             {/* Illustration */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: isRTL ? -40 : 40 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, delay: 0.3, ease: 'easeOut' }}
               className="hidden lg:block relative"
             >
-              <div className="relative rounded-3xl overflow-hidden border border-gold/20 shadow-card">
-                <img
-                  src={heroIllustration}
-                  alt="Financial Growth"
-                  className="w-full h-[480px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
-              </div>
-              {/* Floating card */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                className="absolute -bottom-6 -start-8 bg-card border border-gold/20 rounded-2xl p-4 shadow-gold"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center">
-                    <TrendingUp size={18} className="text-white" />
-                  </div>
-                  <div>
-                    <div className={`text-sm font-bold text-foreground ${fontClass}`}>+35%</div>
-                    <div className={`text-xs text-muted-foreground ${fontClass}`}>{isRTL ? 'نمو الأرباح' : 'Profit Growth'}</div>
-                  </div>
-                </div>
-              </motion.div>
+              <HeroIllustration isRTL={isRTL} />
             </motion.div>
           </div>
         </div>

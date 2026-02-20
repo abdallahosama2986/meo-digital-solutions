@@ -405,47 +405,97 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── TESTIMONIALS ─── */}
+      {/* ─── TESTIMONIALS (Card Carousel) ─── */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          <AnimatedSection className="text-center mb-12">
+          <AnimatedSection className="text-center mb-16">
             <span className={`section-label ${fontClass}`}>{t('testimonials.label')}</span>
             <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>{t('testimonials.title')}</h2>
+            <p className={`text-muted-foreground text-base mt-3 ${fontClass}`}>
+              {isRTL ? 'تجارب حقيقية من عملاء يثقون بخدماتنا ويشهدون بجودتها.' : 'Real experiences from clients who trust our services.'}
+            </p>
           </AnimatedSection>
 
-          <div className="max-w-3xl mx-auto relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonialIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-                className="bg-card border border-border rounded-2xl p-10 text-center card-premium"
+          <div className="relative">
+            {/* Cards container */}
+            <div className="overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-out gap-6"
+                style={{ transform: `translateX(${isRTL ? testimonialIndex * (100 / Math.min(testimonials.length, 3)) : -(testimonialIndex * (100 / Math.min(testimonials.length, 3)))}%)` }}
               >
-                <div className="w-12 h-0.5 bg-gradient-gold mx-auto mb-6" />
-                <div className="flex justify-center gap-1 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={18} className="text-gold fill-gold" />
-                  ))}
-                </div>
-                <p className={`text-foreground/80 text-lg leading-relaxed mb-8 italic ${fontClass}`}>
-                  "{testimonials[testimonialIndex]?.text}"
-                </p>
-                <div>
-                  <div className={`font-bold text-foreground ${fontClass}`}>{testimonials[testimonialIndex]?.name}</div>
-                  <div className={`text-muted-foreground text-sm mt-1 ${fontClass}`}>{testimonials[testimonialIndex]?.role}</div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                {testimonials.map((item, i) => (
+                  <div
+                    key={i}
+                    className="min-w-0 shrink-0 grow-0 basis-full md:basis-[calc(33.333%-1rem)] my-4"
+                  >
+                    <div className="relative h-full rounded-[18px] border border-gold/20 bg-card px-6 pt-10 pb-6 shadow-card hover:shadow-card-hover transition-all duration-300">
+                      {/* Quote icon */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        className={`absolute top-6 ${isRTL ? 'left-6' : 'right-6'} h-8 w-8`}
+                        fill="hsl(var(--gold))"
+                        stroke="hsl(var(--gold))"
+                        strokeWidth="0.5"
+                      >
+                        <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+                        <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+                      </svg>
 
-            <div className="flex items-center justify-center gap-3 mt-6">
+                      {/* Stars */}
+                      <div className="my-5 flex gap-1">
+                        {[...Array(5)].map((_, si) => (
+                          <Star key={si} size={16} className="text-gold fill-gold" />
+                        ))}
+                      </div>
+
+                      {/* Text */}
+                      <p className={`mb-10 text-[15px] leading-[1.9] text-foreground ${fontClass}`}>
+                        "{item.text}"
+                      </p>
+
+                      {/* Author */}
+                      <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className="h-10 w-10 rounded-full bg-gradient-gold flex items-center justify-center text-white font-bold text-sm">
+                          {item.name?.charAt(0)}
+                        </div>
+                        <div className={isRTL ? 'text-right' : 'text-left'}>
+                          <p className={`text-sm font-semibold text-foreground ${fontClass}`}>{item.name}</p>
+                          <p className={`text-xs text-muted-foreground ${fontClass}`}>{item.role}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation arrows (desktop) */}
+            <div className="hidden lg:flex">
+              <button
+                onClick={() => setTestimonialIndex(prev => Math.max(0, prev - 1))}
+                className="absolute -start-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-card shadow-card hover:bg-accent transition-colors flex items-center justify-center"
+              >
+                {isRTL ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+              </button>
+              <button
+                onClick={() => setTestimonialIndex(prev => Math.min(Math.max(0, testimonials.length - 3), prev + 1))}
+                className="absolute -end-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-card shadow-card hover:bg-accent transition-colors flex items-center justify-center"
+              >
+                {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </button>
+            </div>
+
+            {/* Dots */}
+            <div className="mt-10 flex justify-center gap-2.5">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setTestimonialIndex(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === testimonialIndex ? 'w-8 bg-gold' : 'w-2 bg-border hover:bg-gold/50'
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === testimonialIndex ? 'w-6 bg-gold' : 'w-2 bg-border hover:bg-gold/40'
                   }`}
                 />
               ))}

@@ -12,6 +12,45 @@ import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 import HeroIllustration from '@/components/HeroIllustration';
 
+const rotatingWordsAr = ['باحتراف', 'بدقة عالية', 'مع دعم مستمر', 'بأمان'];
+const rotatingWordsEn = ['Professionally', 'With Precision', 'With Ongoing Support', 'Securely'];
+
+const RotatingHeroTitle: React.FC<{ isRTL: boolean; fontClass: string }> = ({ isRTL, fontClass }) => {
+  const words = isRTL ? rotatingWordsAr : rotatingWordsEn;
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setIndex(prev => (prev + 1) % words.length), 2800);
+    return () => clearInterval(timer);
+  }, [words.length]);
+
+  return (
+    <motion.h1
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.1 }}
+      className={`text-hero text-foreground mb-6 leading-tight ${fontClass}`}
+    >
+      <span className="text-gradient-gold">{isRTL ? 'ندير ' : 'We Manage '}</span>
+      {isRTL ? 'حساباتك المالية ' : 'Your Financial Operations '}
+      <span className="inline-block relative overflow-hidden align-bottom" style={{ minWidth: isRTL ? '140px' : '200px', height: '1.2em' }}>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={index}
+            className="absolute inset-0 text-gradient-gold"
+            initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -30, filter: 'blur(6px)' }}
+            transition={{ duration: 0.45 }}
+          >
+            {words[index]}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+    </motion.h1>
+  );
+};
+
 const serviceIcons = [
   <BarChart3 size={24} />,
   <Settings size={24} />,
@@ -133,55 +172,7 @@ const Home: React.FC = () => {
                 <span className={`text-gold text-sm font-semibold ${fontClass}`}>{t('hero.badge')}</span>
               </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className={`text-hero text-foreground mb-6 leading-tight ${fontClass}`}
-              >
-                {isRTL ? (
-                  <>
-                    <span className="text-gradient-gold">ندير </span>
-                    {'حساباتك المالية '}
-                    <motion.span
-                      initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                      transition={{ duration: 0.7, delay: 0.8 }}
-                      className="inline-block relative"
-                    >
-                      <span className="text-gradient-gold">باحتراف</span>
-                      {/* Underline animated */}
-                      <motion.span
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
-                        style={{ background: 'var(--gradient-gold)' }}
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.5, delay: 1.4 }}
-                      />
-                    </motion.span>
-                  </>
-                ) : (
-                  <>
-                    <span className="text-gradient-gold">We Manage </span>
-                    {'Your Financial Operations '}
-                    <motion.span
-                      initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                      transition={{ duration: 0.7, delay: 0.8 }}
-                      className="inline-block relative"
-                    >
-                      <span className="text-gradient-gold">Professionally</span>
-                      <motion.span
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
-                        style={{ background: 'var(--gradient-gold)' }}
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.5, delay: 1.4 }}
-                      />
-                    </motion.span>
-                  </>
-                )}
-              </motion.h1>
+              <RotatingHeroTitle isRTL={isRTL} fontClass={fontClass} />
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}

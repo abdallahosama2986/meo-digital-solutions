@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, Settings, TrendingUp, Users, BookOpen, Cpu, Phone, Shield } from 'lucide-react';
+import { BarChart3, Settings, TrendingUp, Users, BookOpen, Shield } from 'lucide-react';
+import saudiProfessional from '@/assets/saudi-professional.jpg';
 
 interface FloatingLabelProps {
   icon: React.ReactNode;
@@ -86,21 +87,18 @@ const HeroIllustration: React.FC<HeroIllustrationProps> = ({ isRTL }) => {
         transition={{ duration: 0.8, delay: 0.3 }}
       />
 
-      {/* Center logo area */}
+      {/* Center person image */}
       <motion.div
-        className="absolute inset-[32%] rounded-full bg-card border border-gold/20 shadow-gold flex items-center justify-center overflow-hidden"
+        className="absolute inset-[28%] rounded-2xl bg-card border-2 border-gold/20 shadow-gold flex items-center justify-center overflow-hidden"
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.4, type: 'spring', stiffness: 200 }}
       >
-        <div className="text-center p-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-gold flex items-center justify-center mx-auto mb-2">
-            <BarChart3 size={28} className="text-white" />
-          </div>
-          <div className="text-xs font-bold text-foreground leading-tight">
-            {isRTL ? 'الخبرات' : 'MEO'}
-          </div>
-        </div>
+        <img
+          src={saudiProfessional}
+          alt={isRTL ? 'مستشار مالي' : 'Financial Consultant'}
+          className="w-full h-full object-cover"
+        />
       </motion.div>
 
       {/* Floating labels */}

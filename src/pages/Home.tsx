@@ -342,10 +342,18 @@ const Home: React.FC = () => {
             {/* Orbital Animation Side */}
             <AnimatedSection direction={isRTL ? 'right' : 'left'}>
               <div className="relative w-full aspect-square max-w-[460px] mx-auto">
-                {/* Outer dashed orbit */}
-                <div className="absolute inset-4 rounded-full border-2 border-dashed border-border" />
-                {/* Inner dashed orbit */}
-                <div className="absolute inset-[72px] rounded-full border-2 border-dashed border-border" />
+                {/* Outer dashed orbit - slow spin */}
+                <motion.div
+                  className="absolute inset-4 rounded-full border-2 border-dashed border-border"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+                />
+                {/* Inner dashed orbit - reverse slow spin */}
+                <motion.div
+                  className="absolute inset-[72px] rounded-full border-2 border-dashed border-border"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+                />
 
                 {/* Center logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-card shadow-card border border-border flex items-center justify-center z-10">

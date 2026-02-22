@@ -328,9 +328,8 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── WHY US (Light) ─── */}
+      {/* ─── WHY US (Orbital Design) ─── */}
       <section className="section-padding bg-muted/30 relative overflow-hidden">
-        {/* Subtle blob */}
         <div className="absolute top-0 end-0 w-72 h-72 rounded-full bg-gold/6 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 start-0 w-64 h-64 rounded-full bg-gold/4 blur-3xl pointer-events-none" />
         <div className="container-custom relative z-10">
@@ -339,18 +338,97 @@ const Home: React.FC = () => {
             <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>{t('why.title')}</h2>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {whyKeys.map((key, i) => (
-              <AnimatedSection key={key} delay={i * 0.1}>
-                <div className="text-center p-8 rounded-2xl border border-border bg-card hover:border-gold/40 hover:shadow-card-hover transition-all duration-300 group h-full card-premium card-gold-hover">
-                  <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center text-gold mx-auto mb-5 group-hover:bg-gradient-gold group-hover:text-white transition-all duration-300">
-                    {whyIcons[i]}
-                  </div>
-                  <h3 className={`text-foreground font-bold text-lg mb-3 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
-                  <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
+          <div className={`grid lg:grid-cols-2 gap-16 items-center ${isRTL ? '' : 'direction-ltr'}`}>
+            {/* Orbital Animation Side */}
+            <AnimatedSection direction={isRTL ? 'right' : 'left'}>
+              <div className="relative w-full aspect-square max-w-[460px] mx-auto">
+                {/* Outer dashed orbit */}
+                <div className="absolute inset-4 rounded-full border-2 border-dashed border-border" />
+                {/* Inner dashed orbit */}
+                <div className="absolute inset-[72px] rounded-full border-2 border-dashed border-border" />
+
+                {/* Center logo */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-card shadow-card border border-border flex items-center justify-center z-10">
+                  <span className="text-gradient-gold font-bold text-xl tracking-tight">MEO</span>
                 </div>
-              </AnimatedSection>
-            ))}
+
+                {/* Orbiting icons - outer ring */}
+                {[
+                  { icon: <Award size={20} />, angle: 0, ring: 'outer' },
+                  { icon: <Shield size={20} />, angle: 72, ring: 'outer' },
+                  { icon: <BarChart3 size={20} />, angle: 144, ring: 'outer' },
+                  { icon: <Users size={20} />, angle: 216, ring: 'outer' },
+                  { icon: <Lock size={20} />, angle: 288, ring: 'outer' },
+                ].map((item, i) => (
+                  <motion.div
+                    key={`outer-${i}`}
+                    className="absolute w-12 h-12 rounded-full bg-card shadow-card border border-border flex items-center justify-center text-gold"
+                    style={{
+                      top: `${50 - 44 * Math.cos((item.angle * Math.PI) / 180)}%`,
+                      left: `${50 + 44 * Math.sin((item.angle * Math.PI) / 180)}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                    animate={{
+                      y: [0, -6, 0, 6, 0],
+                    }}
+                    transition={{
+                      duration: 4 + i * 0.5,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: i * 0.3,
+                    }}
+                  >
+                    {item.icon}
+                  </motion.div>
+                ))}
+
+                {/* Inner ring icons */}
+                {[
+                  { icon: <Cpu size={18} />, angle: 45 },
+                  { icon: <TrendingUp size={18} />, angle: 165 },
+                  { icon: <Settings size={18} />, angle: 285 },
+                ].map((item, i) => (
+                  <motion.div
+                    key={`inner-${i}`}
+                    className="absolute w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-gold"
+                    style={{
+                      top: `${50 - 27 * Math.cos((item.angle * Math.PI) / 180)}%`,
+                      left: `${50 + 27 * Math.sin((item.angle * Math.PI) / 180)}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                    animate={{
+                      y: [0, 5, 0, -5, 0],
+                      x: [0, -3, 0, 3, 0],
+                    }}
+                    transition={{
+                      duration: 5 + i * 0.7,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: i * 0.5,
+                    }}
+                  >
+                    {item.icon}
+                  </motion.div>
+                ))}
+              </div>
+            </AnimatedSection>
+
+            {/* Content Side */}
+            <div className="space-y-6">
+              {whyKeys.map((key, i) => (
+                <AnimatedSection key={key} delay={i * 0.12}>
+                  <div className={`flex gap-5 items-start ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold flex-shrink-0 mt-1">
+                      {whyIcons[i]}
+                    </div>
+                    <div>
+                      <h3 className={`text-foreground font-bold text-lg mb-1.5 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
+                      <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
           </div>
         </div>
       </section>

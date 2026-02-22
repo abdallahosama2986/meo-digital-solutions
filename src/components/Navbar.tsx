@@ -39,23 +39,23 @@ const Navbar: React.FC = () => {
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 border   mt-6 rounded-3xl border-[#4c30307b] my-12  max-w-[1200px]  mx-auto container  left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-card/95 backdrop-blur-md shadow-card border-b border-border'
-            : 'bg-white/80 backdrop-blur-sm border-b border-border/30'
+            ? ' backdrop-blur-md shadow-card border-b border-border'
+            : 'dark:bg-[#0c121c] bg-white backdrop-blur-sm border-b shadow-card border-border/30'
         }`}
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <nav className="container-custom flex items-center justify-between h-20">
+        <nav className=" flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <img src={logo} alt="MEO Logo" className="h-12 w-auto" />
+          <Link to="/" className="">
+            <img src={logo} alt="MEO Logo" className="h-16 scale-150 w-auto" />
           </Link>
 
           {/* Desktop nav links */}
-          <div className={`hidden md:flex items-center gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`hidden md:flex items-center gap-8 ${isRTL ? 'flex-row' : ''}`}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}

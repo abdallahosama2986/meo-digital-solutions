@@ -11,7 +11,7 @@ import {
 import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 import HeroIllustration from '@/components/HeroIllustration';
-
+import logo from '@/assets/logo.png';
 // Animated counter hook
 const useCounter = (target: number, duration = 2000, inView: boolean) => {
   const [count, setCount] = useState(0);
@@ -56,6 +56,7 @@ const StatsSection: React.FC<{ stats: { value: number; label: string }[]; fontCl
     </motion.div>
   );
 };
+
 const rotatingWordsAr = ['باحتراف', 'بدقة عالية', 'مع دعم مستمر', 'بأمان'];
 const rotatingWordsEn = ['Professionally', 'With Precision', 'With Ongoing Support', 'Securely'];
 
@@ -64,7 +65,7 @@ const RotatingHeroTitle: React.FC<{ isRTL: boolean; fontClass: string }> = ({ is
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => setIndex(prev => (prev + 1) % words.length), 2800);
+    const timer = setInterval(() => setIndex(prev => (prev + 1) % words.length), 1800);
     return () => clearInterval(timer);
   }, [words.length]);
 
@@ -73,11 +74,11 @@ const RotatingHeroTitle: React.FC<{ isRTL: boolean; fontClass: string }> = ({ is
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.1 }}
-      className={`text-hero text-foreground mb-6 leading-tight ${fontClass}`}
+      className={`text-hero  text-foreground mb-6 leading-tight ${fontClass}`}
     >
       <span className="text-gradient-gold">{isRTL ? 'ندير ' : 'We Manage '}</span>
       {isRTL ? 'حساباتك المالية ' : 'Your Financial Operations '}
-      <span className="inline-block relative overflow-hidden align-bottom" style={{ minWidth: isRTL ? '140px' : '200px', height: '1.2em' }}>
+      <span className="inline-block relative overflow-hidden align-bottom" style={{ minWidth: isRTL ? '600px' : '200px', height: '1.2em' }}>
         <AnimatePresence mode="wait">
           <motion.span
             key={index}
@@ -194,13 +195,144 @@ const Home: React.FC = () => {
 
       {/* ─── HERO (Light) ─── */}
       <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-        {/* Gold accent blobs */}
-        <div className="absolute top-1/4 end-1/3 w-72 h-72 rounded-full bg-gold/8 blur-3xl" />
-        <div className="absolute bottom-1/4 start-1/4 w-96 h-96 rounded-full bg-gold/5 blur-3xl" />
-        <div className="absolute top-0 end-0 w-1/2 h-full bg-gradient-to-l from-gold/5 to-transparent" />
+        {/* Subtle background dot pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+
+        {/* ── BLOB BACKGROUNDS behind the text column ── */}
+
+        {/* Blob 1 — Large warm gold, top-left */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            width: '560px',
+            height: '560px',
+            borderRadius: '60% 40% 70% 30% / 50% 60% 40% 50%',
+            background:
+              'radial-gradient(ellipse at center, hsl(38 80% 65% / 0.22) 0%, hsl(38 70% 55% / 0.10) 55%, transparent 75%)',
+            top: '-4%',
+            left: isRTL ? 'auto' : '-8%',
+            right: isRTL ? '-8%' : 'auto',
+            filter: 'blur(48px)',
+          }}
+          animate={{
+            borderRadius: [
+              '60% 40% 70% 30% / 50% 60% 40% 50%',
+              '40% 60% 30% 70% / 60% 40% 60% 40%',
+              '55% 45% 65% 35% / 45% 55% 45% 55%',
+              '60% 40% 70% 30% / 50% 60% 40% 50%',
+            ],
+            x: [0, 20, -14, 0],
+            y: [0, -22, 16, 0],
+            scale: [1, 1.07, 0.96, 1],
+          }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        />
+
+        {/* Blob 2 — Medium amber, center-left mid-height */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            width: '400px',
+            height: '400px',
+            borderRadius: '45% 55% 60% 40% / 55% 45% 55% 45%',
+            background:
+              'radial-gradient(ellipse at center, hsl(36 90% 58% / 0.18) 0%, hsl(38 75% 50% / 0.08) 50%, transparent 72%)',
+            top: '38%',
+            left: isRTL ? 'auto' : '4%',
+            right: isRTL ? '4%' : 'auto',
+            filter: 'blur(52px)',
+          }}
+          animate={{
+            borderRadius: [
+              '45% 55% 60% 40% / 55% 45% 55% 45%',
+              '60% 40% 45% 55% / 40% 60% 40% 60%',
+              '50% 50% 55% 45% / 50% 50% 50% 50%',
+              '45% 55% 60% 40% / 55% 45% 55% 45%',
+            ],
+            x: [0, -16, 22, 0],
+            y: [0, 24, -18, 0],
+            scale: [1, 0.94, 1.09, 1],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        />
+
+        {/* Blob 3 — Small bright highlight, upper-center of text */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            width: '260px',
+            height: '260px',
+            borderRadius: '50%',
+            background:
+              'radial-gradient(ellipse at center, hsl(45 100% 72% / 0.22) 0%, transparent 70%)',
+            top: '16%',
+            left: isRTL ? 'auto' : '22%',
+            right: isRTL ? '22%' : 'auto',
+            filter: 'blur(32px)',
+          }}
+          animate={{
+            scale: [1, 1.18, 0.90, 1],
+            opacity: [0.7, 1, 0.6, 0.7],
+            x: [0, 12, -10, 0],
+            y: [0, -14, 12, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
+
+        {/* Blob 4 — Deep warm anchor blob, bottom-left */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            width: '460px',
+            height: '320px',
+            borderRadius: '70% 30% 50% 50% / 40% 60% 40% 60%',
+            background:
+              'radial-gradient(ellipse at center, hsl(32 60% 45% / 0.13) 0%, transparent 70%)',
+            bottom: '8%',
+            left: isRTL ? 'auto' : '-6%',
+            right: isRTL ? '-6%' : 'auto',
+            filter: 'blur(58px)',
+          }}
+          animate={{
+            borderRadius: [
+              '70% 30% 50% 50% / 40% 60% 40% 60%',
+              '40% 60% 70% 30% / 60% 40% 60% 40%',
+              '55% 45% 45% 55% / 50% 50% 50% 50%',
+              '70% 30% 50% 50% / 40% 60% 40% 60%',
+            ],
+            x: [0, 18, -12, 0],
+            y: [0, -12, 20, 0],
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+        />
+
+        {/* Blob 5 — Tiny golden sparkle accent, top-center of text */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            width: '140px',
+            height: '140px',
+            borderRadius: '50%',
+            background:
+              'radial-gradient(ellipse at center, hsl(42 100% 68% / 0.30) 0%, transparent 65%)',
+            top: '10%',
+            left: isRTL ? 'auto' : '10%',
+            right: isRTL ? '10%' : 'auto',
+            filter: 'blur(20px)',
+          }}
+          animate={{
+            scale: [1, 1.3, 0.85, 1],
+            opacity: [0.5, 0.9, 0.4, 0.5],
+          }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        />
+        {/* ── END BLOBS ── */}
 
         <div className="container-custom relative z-10 pt-28 pb-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -210,10 +342,10 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/8 mb-6"
+                className="inline-flex  bg-white  mt-12 items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/8 mb-6"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className={`text-gold text-sm font-semibold ${fontClass}`}>{t('hero.badge')}</span>
+                <span className={`text-gold text-sm   font-semibold ${fontClass}`}>{t('hero.badge')}</span>
               </motion.div>
 
               <RotatingHeroTitle isRTL={isRTL} fontClass={fontClass} />
@@ -222,7 +354,7 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className={`text-muted-foreground text-lg mb-10 leading-relaxed max-w-lg ${fontClass}`}
+                className={`text-muted-foreground  text-lg mb-10 leading-relaxed max-w-lg ${fontClass}`}
               >
                 {t('hero.subtitle')}
               </motion.p>
@@ -278,6 +410,19 @@ const Home: React.FC = () => {
         >
           <div className="w-px h-10 bg-gradient-to-b from-gold to-transparent mx-auto" />
         </motion.div>
+      </section>
+     {/* ─── PARTNERS MARQUEE ─── */}
+      <section className="section-padding bg-background">
+        <div className="container-custom">
+          <AnimatedSection className="text-center mb-12">
+            <span className={`section-label ${fontClass}`}>{isRTL ? 'شركاؤنا' : 'Our Partners'}</span>
+            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>
+              {isRTL ? 'موثوق من قبل شركات رائدة' : 'Trusted by Leading Companies'}
+            </h2>
+          </AnimatedSection>
+
+          <InfiniteMarquee logos={partnerLogos} speed={30} />
+        </div>
       </section>
 
       {/* ─── SERVICES (Reference Card Style) ─── */}
@@ -339,7 +484,23 @@ const Home: React.FC = () => {
           </AnimatedSection>
 
           <div className={`grid lg:grid-cols-2 gap-16 items-center ${isRTL ? '' : 'direction-ltr'}`}>
-            {/* Orbital Animation Side */}
+            {/* Content Side */}
+            <div className="space-y-6">
+              {whyKeys.map((key, i) => (
+                <AnimatedSection key={key} delay={i * 0.12}>
+                  <div className={`flex gap-5 items-start ${isRTL ? 'text-right' : ''}`}>
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold flex-shrink-0 mt-1">
+                      {whyIcons[i]}
+                    </div>
+                    <div>
+                      <h3 className={`text-foreground font-bold text-lg mb-1.5 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
+                      <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+
             <AnimatedSection direction={isRTL ? 'right' : 'left'}>
               <div className="relative w-full aspect-square max-w-[460px] mx-auto">
                 {/* Outer dashed orbit - slow spin */}
@@ -357,7 +518,9 @@ const Home: React.FC = () => {
 
                 {/* Center logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-card shadow-card border border-border flex items-center justify-center z-10">
-                  <span className="text-gradient-gold font-bold text-xl tracking-tight">MEO</span>
+                  <span className="text-gradient-gold font-bold text-xl tracking-tight"> <Link to="/" className="">
+            <img src={logo} alt="MEO Logo" className="h-16 scale-150 w-auto" />
+          </Link></span>
                 </div>
 
                 {/* Orbiting icons - outer ring */}
@@ -376,9 +539,7 @@ const Home: React.FC = () => {
                       left: `${50 + 44 * Math.sin((item.angle * Math.PI) / 180)}%`,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    animate={{
-                      y: [0, -6, 0, 6, 0],
-                    }}
+                    animate={{ y: [0, -6, 0, 6, 0] }}
                     transition={{
                       duration: 4 + i * 0.5,
                       repeat: Infinity,
@@ -420,41 +581,11 @@ const Home: React.FC = () => {
                 ))}
               </div>
             </AnimatedSection>
-
-            {/* Content Side */}
-            <div className="space-y-6">
-              {whyKeys.map((key, i) => (
-                <AnimatedSection key={key} delay={i * 0.12}>
-                  <div className={`flex gap-5 items-start ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
-                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold flex-shrink-0 mt-1">
-                      {whyIcons[i]}
-                    </div>
-                    <div>
-                      <h3 className={`text-foreground font-bold text-lg mb-1.5 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
-                      <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── PARTNERS MARQUEE ─── */}
-      <section className="section-padding bg-background">
-        <div className="container-custom">
-          <AnimatedSection className="text-center mb-12">
-            <span className={`section-label ${fontClass}`}>{isRTL ? 'شركاؤنا' : 'Our Partners'}</span>
-            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>
-              {isRTL ? 'موثوق من قبل شركات رائدة' : 'Trusted by Leading Companies'}
-            </h2>
-          </AnimatedSection>
-
-          <InfiniteMarquee logos={partnerLogos} speed={30} />
-        </div>
-      </section>
-
+ 
       {/* ─── PACKAGES ─── */}
       <section className="section-padding bg-muted/30">
         <div className="container-custom">
@@ -472,7 +603,7 @@ const Home: React.FC = () => {
                 <p className={`text-muted-foreground text-sm mb-8 ${fontClass}`}>{t('packages.launch.desc')}</p>
                 <ul className="space-y-3 mb-8">
                   {(t('packages.launch.features', { returnObjects: true }) as string[]).map((f, i) => (
-                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? 'flex-row-reverse' : ''} ${fontClass}`}>
+                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? '' : ''} ${fontClass}`}>
                       <CheckCircle2 size={16} className="text-gold flex-shrink-0" />
                       {f}
                     </li>
@@ -499,7 +630,7 @@ const Home: React.FC = () => {
                 <p className={`text-muted-foreground text-sm mb-8 ${fontClass}`}>{t('packages.business.desc')}</p>
                 <ul className="space-y-3 mb-8">
                   {(t('packages.business.features', { returnObjects: true }) as string[]).map((f, i) => (
-                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? 'flex-row-reverse' : ''} ${fontClass}`}>
+                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? '' : ''} ${fontClass}`}>
                       <CheckCircle2 size={16} className="text-gold flex-shrink-0" />
                       {f}
                     </li>
@@ -569,7 +700,7 @@ const Home: React.FC = () => {
                       </p>
 
                       {/* Author */}
-                      <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex items-center gap-3 ${isRTL ? '' : ''}`}>
                         <div className="h-10 w-10 rounded-full bg-gradient-gold flex items-center justify-center text-white font-bold text-sm">
                           {item.name?.charAt(0)}
                         </div>

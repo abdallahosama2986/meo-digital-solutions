@@ -39,6 +39,23 @@ const AnimatedStat: React.FC<{ value: number; label: string; fontClass: string; 
   );
 };
 
+const StatsSection: React.FC<{ stats: { value: number; label: string }[]; fontClass: string }> = ({ stats, fontClass }) => {
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true });
+  return (
+    <motion.div
+      ref={statsRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: statsInView ? 1 : 0 }}
+      transition={{ delay: 0.3, duration: 0.8 }}
+      className="flex gap-10 mt-14 pt-10 border-t border-border"
+    >
+      {stats.map((stat, i) => (
+        <AnimatedStat key={i} value={stat.value} label={stat.label} fontClass={fontClass} inView={statsInView} />
+      ))}
+    </motion.div>
+  );
+};
 const rotatingWordsAr = ['باحتراف', 'بدقة عالية', 'مع دعم مستمر', 'بأمان'];
 const rotatingWordsEn = ['Professionally', 'With Precision', 'With Ongoing Support', 'Securely'];
 
@@ -231,27 +248,14 @@ const Home: React.FC = () => {
               </motion.div>
 
               {/* Stats */}
-              {(() => {
-                const statsRef = useRef(null);
-                const statsInView = useInView(statsRef, { once: true });
-                return (
-                  <motion.div
-                    ref={statsRef}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: statsInView ? 1 : 0 }}
-                    transition={{ delay: 0.3, duration: 0.8 }}
-                    className="flex gap-10 mt-14 pt-10 border-t border-border"
-                  >
-                    {[
-                      { value: 10, label: t('hero.stats.years') },
-                      { value: 20, label: t('hero.stats.cafes') },
-                      { value: 15, label: t('hero.stats.restaurants') },
-                    ].map((stat, i) => (
-                      <AnimatedStat key={i} value={stat.value} label={stat.label} fontClass={fontClass} inView={statsInView} />
-                    ))}
-                  </motion.div>
-                );
-              })()}
+              <StatsSection
+                stats={[
+                  { value: 10, label: t('hero.stats.years') },
+                  { value: 20, label: t('hero.stats.cafes') },
+                  { value: 15, label: t('hero.stats.restaurants') },
+                ]}
+                fontClass={fontClass}
+              />
             </div>
 
             {/* Illustration */}

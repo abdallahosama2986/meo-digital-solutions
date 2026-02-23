@@ -14,6 +14,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import "./i18n";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +24,10 @@ const App = () => (
       <ThemeProvider>
         <LanguageProvider>
           <Toaster />
+          
           <Sonner />
           <BrowserRouter>
+          <ScrollToTop/>
             <Layout>
               <Routes>
                 <Route path="/" element={<Home />} />

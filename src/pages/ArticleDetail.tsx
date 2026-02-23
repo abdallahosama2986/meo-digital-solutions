@@ -3,7 +3,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Calendar, Tag, ArrowLeft, ArrowRight, Clock } from 'lucide-react';
+import { ChevronLeft, Calendar, Tag, ArrowLeft, Arrowstart, Clock, ChevronRight } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -221,15 +221,15 @@ const ArticleDetail: React.FC = () => {
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
         />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 start-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
-        <div className="container-custom relative z-10">
+        <div className="  max-w-3xl mx-auto  bg-background relative z-10">
           {/* Breadcrumb */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className={`flex items-center gap-2 text-sm text-muted-foreground mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}
+            className={`flex items-center gap-2 text-sm text-muted-foreground mb-8 ${isRTL ? '     ' : ''}`}
           >
             <Link to="/" className="hover:text-gold transition-colors">{isRTL ? 'الرئيسية' : 'Home'}</Link>
             <span>{isRTL ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}</span>
@@ -242,10 +242,10 @@ const ArticleDetail: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className={isRTL ? 'text-right' : 'text-left'}
+            className={isRTL ? 'text-start' : 'text-left'}
           >
             {/* Category badge */}
-            <div className={`flex items-center gap-2 mb-4 ${isRTL ? 'justify-end' : ''}`}>
+            <div className={`flex items-center gap-2 mb-4 ${isRTL ? ' ' : ''}`}>
               <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-semibold ${fontClass}`}>
                 <Tag size={11} />
                 {article.category}
@@ -260,7 +260,7 @@ const ArticleDetail: React.FC = () => {
               </span>
             </div>
 
-            <h1 className={`text-hero font-bold text-foreground max-w-3xl leading-tight ${fontClass} ${isRTL ? 'mr-auto' : ''}`}>
+            <h1 className={`text-hero font-bold text-foreground  leading-tight ${fontClass} ${isRTL ? 'mr-auto' : ''}`}>
               {article.title}
             </h1>
             <p className={`text-muted-foreground text-lg mt-4 max-w-2xl ${fontClass}`}>{article.excerpt}</p>
@@ -275,7 +275,7 @@ const ArticleDetail: React.FC = () => {
             <AnimatedSection>
               {/* Article content */}
               <div
-                className={`prose-custom ${isRTL ? 'text-right' : 'text-left'}`}
+                className={`prose-custom ${isRTL ? 'text-start' : 'text-left'}`}
               >
                 {renderBody(bodyText)}
               </div>
@@ -313,9 +313,9 @@ const ArticleDetail: React.FC = () => {
                 {prevIndex !== null ? (
                   <Link
                     to={`/articles/${prevIndex}`}
-                    className={`group p-4 rounded-xl border border-border hover:border-gold/40 bg-card transition-all duration-200 hover:shadow-card ${isRTL ? 'text-right' : 'text-left'}`}
+                    className={`group p-4 rounded-xl border border-border hover:border-gold/40 bg-card transition-all duration-200 hover:shadow-card ${isRTL ? 'text-start' : 'text-left'}`}
                   >
-                    <div className={`flex items-center gap-2 text-xs text-muted-foreground mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-center gap-2 text-xs text-muted-foreground mb-2 ${isRTL ? '     ' : ''}`}>
                       {isRTL ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
                       <span className={fontClass}>{isRTL ? 'المقال السابق' : 'Previous'}</span>
                     </div>
@@ -328,13 +328,13 @@ const ArticleDetail: React.FC = () => {
                 {nextIndex !== null ? (
                   <Link
                     to={`/articles/${nextIndex}`}
-                    className={`group p-4 rounded-xl border border-border hover:border-gold/40 bg-card transition-all duration-200 hover:shadow-card ${isRTL ? 'text-left' : 'text-right'}`}
+                    className={`group p-4 rounded-xl border border-border hover:border-gold/40 bg-card transition-all duration-200 hover:shadow-card ${isRTL ? 'text-left' : 'text-start'}`}
                   >
-                    <div className={`flex items-center gap-2 text-xs text-muted-foreground mb-2 ${isRTL ? '' : 'justify-end'} ${isRTL ? 'flex-row-reverse justify-end' : ''}`}>
+                    <div className={`flex items-center gap-2 text-xs text-muted-foreground mb-2 ${isRTL ? '' : ' '} ${isRTL ? '       ' : ''}`}>
                       <span className={fontClass}>{isRTL ? 'المقال التالي' : 'Next'}</span>
                       {isRTL ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
                     </div>
-                    <p className={`text-sm font-semibold text-foreground group-hover:text-gold transition-colors line-clamp-2 ${fontClass}`}>
+                    <p className={``}>
                       {articles[nextIndex].title}
                     </p>
                   </Link>
@@ -349,7 +349,7 @@ const ArticleDetail: React.FC = () => {
       <section className="pb-24 bg-background">
         <div className="container-custom">
           <AnimatedSection className="mb-8">
-            <h2 className={`text-2xl font-bold text-foreground ${fontClass} ${isRTL ? 'text-right' : ''}`}>
+            <h2 className={`text-2xl font-bold text-foreground ${fontClass} ${isRTL ? 'text-start' : ''}`}>
               {isRTL ? 'مقالات ذات صلة' : 'Related Articles'}
             </h2>
           </AnimatedSection>
@@ -366,10 +366,10 @@ const ArticleDetail: React.FC = () => {
                         <Tag size={10} />
                         {rel.category}
                       </span>
-                      <h3 className={`font-bold text-foreground group-hover:text-gold transition-colors mb-2 text-sm leading-snug ${fontClass} ${isRTL ? 'text-right' : ''}`}>
-                        {rel.title}
+                      <h3 className={`font-bold text-foreground group-hover:text-gold transition-colors mb-2 text-sm leading-snug ${fontClass} ${isRTL ? 'text-start' : ''}`}>
+                     
                       </h3>
-                      <p className={`text-muted-foreground text-xs leading-relaxed line-clamp-3 ${fontClass} ${isRTL ? 'text-right' : ''}`}>
+                      <p className={`text-muted-foreground text-xs leading-relaxed line-clamp-3 ${fontClass} ${isRTL ? 'text-start' : ''}`}>
                         {rel.excerpt}
                       </p>
                     </Link>

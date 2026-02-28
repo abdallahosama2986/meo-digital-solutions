@@ -6,12 +6,19 @@ import { HelmetProvider, Helmet } from 'react-helmet-async';
 import {
   ChevronLeft, ChevronRight, Star, CheckCircle2,
   BarChart3, Shield, Settings, Users, BookOpen,
-  TrendingUp, Award, Lock, Cpu, ArrowLeft, ArrowRight
+  TrendingUp, Award, Lock, Cpu, ArrowLeft, ArrowRight,
+  Phone, Mail, MapPin
 } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
-import HeroIllustration from '@/components/HeroIllustration';
 import logo from '@/assets/logo.png';
+
+// ─── Color palette ───
+// Primary Blue:   #1d3b88
+// Mid Blue:       #253d7a / #344672
+// Light Blue:     #4d6090 / #7a8bb5
+// Gold:           #e4a703 / #d5b550 / #d5ab2a
+
 // Animated counter hook
 const useCounter = (target: number, duration = 2000, inView: boolean) => {
   const [count, setCount] = useState(0);
@@ -29,12 +36,12 @@ const useCounter = (target: number, duration = 2000, inView: boolean) => {
   return count;
 };
 
-const AnimatedStat: React.FC<{ value: number; label: string; fontClass: string; inView: boolean }> = ({ value, label, fontClass, inView }) => {
+const AnimatedStat: React.FC<{ value: number; label: string; fontClass: string; inView: boolean; light?: boolean }> = ({ value, label, fontClass, inView, light }) => {
   const count = useCounter(value, 2000, inView);
   return (
-    <div>
-      <div className={`text-3xl font-bold text-gradient-gold ${fontClass}`}>{count}+</div>
-      <div className={`text-muted-foreground text-xs mt-1 ${fontClass}`}>{label}</div>
+    <div className="text-center">
+      <div className={`text-4xl font-bold ${light ? 'text-white' : 'text-[#e4a703]'} ${fontClass}`}>{count}+</div>
+      <div className={`text-sm mt-1 ${light ? 'text-white/70' : 'text-[#7a8bb5]'} ${fontClass}`}>{label}</div>
     </div>
   );
 };
@@ -48,10 +55,10 @@ const StatsSection: React.FC<{ stats: { value: number; label: string }[]; fontCl
       initial={{ opacity: 0 }}
       animate={{ opacity: statsInView ? 1 : 0 }}
       transition={{ delay: 0.3, duration: 0.8 }}
-      className="flex gap-10 mt-14 pt-10 border-t border-border"
+      className="flex gap-10 mt-14 pt-10 border-t border-white/20"
     >
       {stats.map((stat, i) => (
-        <AnimatedStat key={i} value={stat.value} label={stat.label} fontClass={fontClass} inView={statsInView} />
+        <AnimatedStat key={i} value={stat.value} label={stat.label} fontClass={fontClass} inView={statsInView} light />
       ))}
     </motion.div>
   );
@@ -74,15 +81,17 @@ const RotatingHeroTitle: React.FC<{ isRTL: boolean; fontClass: string }> = ({ is
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.1 }}
-      className={`text-hero  text-foreground mb-6 leading-tight ${fontClass}`}
+      className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight ${fontClass}`}
     >
-      <span className="text-gradient-gold">{isRTL ? 'ندير ' : 'We Manage '}</span>
+      <span style={{ color: '#e4a703' }}>{isRTL ? 'ندير ' : 'We Manage '}</span>
       {isRTL ? 'حساباتك المالية ' : 'Your Financial Operations '}
-      <span className="inline-block relative overflow-hidden align-bottom" style={{ minWidth: isRTL ? '600px' : '200px', height: '1.2em' }}>
+      <br />
+      <span className="inline-block relative overflow-hidden align-bottom" style={{ minWidth: isRTL ? '300px' : '200px', height: '1.2em' }}>
         <AnimatePresence mode="wait">
           <motion.span
             key={index}
-            className="absolute inset-0 text-gradient-gold"
+            className="absolute inset-0"
+            style={{ color: '#e4a703' }}
             initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: -30, filter: 'blur(6px)' }}
@@ -130,35 +139,20 @@ const InfiniteMarquee: React.FC<{ logos: string[]; speed?: number }> = ({ logos,
   const doubled = [...logos, ...logos];
   return (
     <div className="relative overflow-hidden w-full" dir="ltr">
-      {/* Left fade */}
       <div className="absolute left-0 top-0 h-full w-24 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to right, hsl(var(--background)), transparent)' }} />
-      {/* Right fade */}
       <div className="absolute right-0 top-0 h-full w-24 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }} />
-
       <div
         className="flex gap-8 items-center"
-        style={{
-          animation: `marquee-scroll ${speed}s linear infinite`,
-          width: 'max-content',
-        }}
+        style={{ animation: `marquee-scroll ${speed}s linear infinite`, width: 'max-content' }}
       >
         {doubled.map((src, i) => (
-          <div
-            key={i}
-            className="flex-shrink-0 w-28 h-20 flex items-center justify-center bg-white rounded-xl border border-border p-3 shadow-sm"
-          >
-            <img
-              src={src}
-              alt={`Partner ${(i % logos.length) + 1}`}
-              className="max-h-full max-w-full object-contain"
-              loading="lazy"
-            />
+          <div key={i} className="flex-shrink-0 w-28 h-20 flex items-center justify-center bg-white rounded-xl border border-border p-3 shadow-sm">
+            <img src={src} alt={`Partner ${(i % logos.length) + 1}`} className="max-h-full max-w-full object-contain" loading="lazy" />
           </div>
         ))}
       </div>
-
       <style>{`
         @keyframes marquee-scroll {
           0%   { transform: translateX(0); }
@@ -176,6 +170,8 @@ const Home: React.FC = () => {
   const testimonials = t('testimonials.items', { returnObjects: true }) as Array<{ name: string; role: string; text: string }>;
   const serviceKeys = ['accounting', 'admin', 'operational', 'marketing', 'restaurant', 'systems'] as const;
   const whyKeys = ['accuracy', 'experience', 'confidentiality', 'systems'] as const;
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -193,159 +189,51 @@ const Home: React.FC = () => {
         <meta name="description" content="مكتب الخبرات المتعددة للاستشارات التجارية - خدمات محاسبية وإدارية وتشغيلية وتسويقية متكاملة للمنشآت الصغيرة والمتوسطة في المملكة العربية السعودية" />
       </Helmet>
 
-      {/* ─── HERO (Light) ─── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
-        {/* Subtle background dot pattern */}
+      {/* ─── HERO — WordPress Style: Full BG Image + Dark Overlay ─── */}
+      <section
+        className="relative min-h-screen flex items-center overflow-hidden"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        {/* Dark overlay — deep navy tint */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, rgba(29,59,136,0.92) 0%, rgba(37,61,122,0.85) 50%, rgba(52,70,114,0.80) 100%)' }}
+        />
+
+        {/* Gold accent diagonal stripe */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-10"
           style={{
-            backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
+            backgroundImage: 'repeating-linear-gradient(45deg, #e4a703 0px, #e4a703 1px, transparent 1px, transparent 60px)',
           }}
         />
 
-        {/* ── BLOB BACKGROUNDS behind the text column ── */}
-
-        {/* Blob 1 — Large warm gold, top-left */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            width: '560px',
-            height: '560px',
-            borderRadius: '60% 40% 70% 30% / 50% 60% 40% 50%',
-            background:
-              'radial-gradient(ellipse at center, hsl(38 80% 65% / 0.22) 0%, hsl(38 70% 55% / 0.10) 55%, transparent 75%)',
-            top: '-4%',
-            left: isRTL ? 'auto' : '-8%',
-            right: isRTL ? '-8%' : 'auto',
-            filter: 'blur(48px)',
-          }}
-          animate={{
-            borderRadius: [
-              '60% 40% 70% 30% / 50% 60% 40% 50%',
-              '40% 60% 30% 70% / 60% 40% 60% 40%',
-              '55% 45% 65% 35% / 45% 55% 45% 55%',
-              '60% 40% 70% 30% / 50% 60% 40% 50%',
-            ],
-            x: [0, 20, -14, 0],
-            y: [0, -22, 16, 0],
-            scale: [1, 1.07, 0.96, 1],
-          }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        />
-
-        {/* Blob 2 — Medium amber, center-left mid-height */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            width: '400px',
-            height: '400px',
-            borderRadius: '45% 55% 60% 40% / 55% 45% 55% 45%',
-            background:
-              'radial-gradient(ellipse at center, hsl(36 90% 58% / 0.18) 0%, hsl(38 75% 50% / 0.08) 50%, transparent 72%)',
-            top: '38%',
-            left: isRTL ? 'auto' : '4%',
-            right: isRTL ? '4%' : 'auto',
-            filter: 'blur(52px)',
-          }}
-          animate={{
-            borderRadius: [
-              '45% 55% 60% 40% / 55% 45% 55% 45%',
-              '60% 40% 45% 55% / 40% 60% 40% 60%',
-              '50% 50% 55% 45% / 50% 50% 50% 50%',
-              '45% 55% 60% 40% / 55% 45% 55% 45%',
-            ],
-            x: [0, -16, 22, 0],
-            y: [0, 24, -18, 0],
-            scale: [1, 0.94, 1.09, 1],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        />
-
-        {/* Blob 3 — Small bright highlight, upper-center of text */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            width: '260px',
-            height: '260px',
-            borderRadius: '50%',
-            background:
-              'radial-gradient(ellipse at center, hsl(45 100% 72% / 0.22) 0%, transparent 70%)',
-            top: '16%',
-            left: isRTL ? 'auto' : '22%',
-            right: isRTL ? '22%' : 'auto',
-            filter: 'blur(32px)',
-          }}
-          animate={{
-            scale: [1, 1.18, 0.90, 1],
-            opacity: [0.7, 1, 0.6, 0.7],
-            x: [0, 12, -10, 0],
-            y: [0, -14, 12, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        />
-
-        {/* Blob 4 — Deep warm anchor blob, bottom-left */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            width: '460px',
-            height: '320px',
-            borderRadius: '70% 30% 50% 50% / 40% 60% 40% 60%',
-            background:
-              'radial-gradient(ellipse at center, hsl(32 60% 45% / 0.13) 0%, transparent 70%)',
-            bottom: '8%',
-            left: isRTL ? 'auto' : '-6%',
-            right: isRTL ? '-6%' : 'auto',
-            filter: 'blur(58px)',
-          }}
-          animate={{
-            borderRadius: [
-              '70% 30% 50% 50% / 40% 60% 40% 60%',
-              '40% 60% 70% 30% / 60% 40% 60% 40%',
-              '55% 45% 45% 55% / 50% 50% 50% 50%',
-              '70% 30% 50% 50% / 40% 60% 40% 60%',
-            ],
-            x: [0, 18, -12, 0],
-            y: [0, -12, 20, 0],
-          }}
-          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-        />
-
-        {/* Blob 5 — Tiny golden sparkle accent, top-center of text */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            width: '140px',
-            height: '140px',
-            borderRadius: '50%',
-            background:
-              'radial-gradient(ellipse at center, hsl(42 100% 68% / 0.30) 0%, transparent 65%)',
-            top: '10%',
-            left: isRTL ? 'auto' : '10%',
-            right: isRTL ? '10%' : 'auto',
-            filter: 'blur(20px)',
-          }}
-          animate={{
-            scale: [1, 1.3, 0.85, 1],
-            opacity: [0.5, 0.9, 0.4, 0.5],
-          }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-        />
-        {/* ── END BLOBS ── */}
+        {/* Glowing gold blobs */}
+        <div className="absolute top-20 right-20 w-64 h-64 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.15) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        <div className="absolute bottom-32 left-10 w-80 h-80 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.10) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
         <div className="container-custom relative z-10 pt-28 pb-20">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Text */}
+
+            {/* ── LEFT: Text Content ── */}
             <div>
+              {/* Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex  bg-white  mt-12 items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/8 mb-6"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 mt-12"
+                style={{ background: 'rgba(228,167,3,0.15)', border: '1px solid rgba(228,167,3,0.4)' }}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className={`text-gold text-sm   font-semibold ${fontClass}`}>{t('hero.badge')}</span>
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#e4a703' }} />
+                <span className={`text-sm font-semibold ${fontClass}`} style={{ color: '#e4a703' }}>{t('hero.badge')}</span>
               </motion.div>
 
               <RotatingHeroTitle isRTL={isRTL} fontClass={fontClass} />
@@ -354,7 +242,7 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className={`text-muted-foreground  text-lg mb-10 leading-relaxed max-w-lg ${fontClass}`}
+                className={`text-white/75 text-lg mb-10 leading-relaxed max-w-lg ${fontClass}`}
               >
                 {t('hero.subtitle')}
               </motion.p>
@@ -367,13 +255,17 @@ const Home: React.FC = () => {
               >
                 <Link
                   to="/contact"
-                  className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-white font-semibold text-sm shadow-gold hover:shadow-xl transition-all duration-300 hover:scale-105 ${fontClass}`}
+                  className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 shadow-lg ${fontClass}`}
+                  style={{ background: '#e4a703', color: '#1d3b88' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = '#d5ab2a')}
+                  onMouseLeave={e => (e.currentTarget.style.background = '#e4a703')}
                 >
                   {t('hero.cta1')}
                 </Link>
                 <Link
                   to="/services"
-                  className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full border-2 border-gold/40 text-foreground font-semibold text-sm hover:border-gold hover:text-gold transition-all duration-300 ${fontClass}`}
+                  className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 border-2 text-white hover:text-[#1d3b88] hover:bg-white ${fontClass}`}
+                  style={{ borderColor: 'rgba(255,255,255,0.5)' }}
                 >
                   {t('hero.cta2')}
                 </Link>
@@ -390,14 +282,68 @@ const Home: React.FC = () => {
               />
             </div>
 
-            {/* Illustration */}
+            {/* ── RIGHT: Real Photo Card ── */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: 'easeOut' }}
+              initial={{ opacity: 0, x: isRTL ? -60 : 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.4, ease: 'easeOut' }}
               className="hidden lg:block relative"
             >
-              <HeroIllustration isRTL={isRTL} />
+              {/* Main photo */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl"
+                style={{ border: '3px solid rgba(228,167,3,0.4)' }}>
+                <img
+                  src="https://kshouf.com/wp-content/uploads/2025/05/%D9%85%D8%AD%D8%A7%D8%B3%D8%A8-%D9%82%D8%A7%D9%86%D9%88%D9%86%D9%8A.png"
+                  alt="Professional business team"
+                  className="w-full h-[480px] object-cover"
+                />
+                {/* Photo overlay gradient */}
+                <div className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to top, rgba(29,59,136,0.6) 0%, transparent 60%)' }} />
+
+                {/* Floating stat card — bottom left */}
+                <motion.div
+                  className="absolute bottom-6 left-6 rounded-xl px-5 py-4 shadow-xl"
+                  style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)' }}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <div className={`text-2xl font-bold ${fontClass}`} style={{ color: '#1d3b88' }}>98%</div>
+                  <div className={`text-xs text-gray-500 ${fontClass}`}>{isRTL ? 'نسبة رضا العملاء' : 'Client Satisfaction'}</div>
+                </motion.div>
+
+                {/* Floating badge — top right */}
+                <motion.div
+                  className="absolute top-6 right-6 rounded-xl px-4 py-3 shadow-xl"
+                  style={{ background: '#e4a703' }}
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                >
+                  <div className={`text-sm font-bold text-white ${fontClass}`}>
+                    {isRTL ? '١٠+ سنوات خبرة' : '10+ Years Experience'}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Small accent photo */}
+              <motion.div
+                className="absolute -bottom-8 -right-8 w-40 h-40 rounded-2xl overflow-hidden shadow-xl"
+                style={{ border: '3px solid #e4a703' }}
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+              >
+                <img
+                  src="https://cdn-ildkhmb.nitrocdn.com/LHnqhVLRtrQdyWKBnlqZWwWNyTtgNTSG/assets/images/optimized/rev-bbe3859/alameenksa.com/wp-content/uploads/2025/01/1626479454.png"
+                  alt="Business professional"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              {/* Gold ring decoration */}
+              <div
+                className="absolute -top-6 -left-6 w-24 h-24 rounded-full border-4 border-dashed pointer-events-none"
+                style={{ borderColor: 'rgba(228,167,3,0.3)' }}
+              />
             </motion.div>
           </div>
         </div>
@@ -408,11 +354,15 @@ const Home: React.FC = () => {
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
         >
-          <div className="w-px h-10 bg-gradient-to-b from-gold to-transparent mx-auto" />
+          <div className="w-px h-10 mx-auto" style={{ background: 'linear-gradient(to bottom, #e4a703, transparent)' }} />
         </motion.div>
       </section>
-     {/* ─── PARTNERS MARQUEE ─── */}
-      <section className="section-padding bg-background">
+
+      {/* ─── STATS BAR (Brand Blue) ─── */}
+    
+
+      {/* ─── PARTNERS MARQUEE ─── */}
+      <section className="section-padding  bg-blue-50">
         <div className="container-custom">
           <AnimatedSection className="text-center mb-12">
             <span className={`section-label ${fontClass}`}>{isRTL ? 'شركاؤنا' : 'Our Partners'}</span>
@@ -420,52 +370,60 @@ const Home: React.FC = () => {
               {isRTL ? 'موثوق من قبل شركات رائدة' : 'Trusted by Leading Companies'}
             </h2>
           </AnimatedSection>
-
           <InfiniteMarquee logos={partnerLogos} speed={30} />
         </div>
       </section>
 
-      {/* ─── SERVICES (Reference Card Style) ─── */}
-      <section className="section-padding bg-muted/20">
+      {/* ─── SERVICES — Dark Blue BG ─── */}
+      <section className="section-padding" style={{ background: '#253d7a' }}>
         <div className="container-custom">
           <AnimatedSection className="text-center mb-16">
-            <span className={`section-label ${fontClass}`}>{t('services.label')}</span>
-            <h2 className={`text-display font-bold text-foreground mt-3 mb-3 ${fontClass}`}>
+            <span
+              className={`inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 ${fontClass}`}
+              style={{ background: 'rgba(228,167,3,0.15)', color: '#e4a703', border: '1px solid rgba(228,167,3,0.3)' }}
+            >
+              {t('services.label')}
+            </span>
+            <h2 className={`text-3xl md:text-4xl font-bold text-white mt-3 mb-3 ${fontClass}`}>
               {isRTL
-                ? <><span className="text-gradient-gold">خدماتنا</span>{' '}المتكاملة لنمو منشأتك</>
-                : <><span className="text-gradient-gold">Our</span> Integrated Services</>
+                ? <><span style={{ color: '#e4a703' }}>خدماتنا</span> المتكاملة لنمو منشأتك</>
+                : <><span style={{ color: '#e4a703' }}>Our</span> Integrated Services</>
               }
             </h2>
-            <p className={`text-muted-foreground text-base leading-relaxed max-w-2xl mx-auto ${fontClass}`}>{t('services.subtitle')}</p>
+            <p className={`text-white/60 text-base leading-relaxed max-w-2xl mx-auto ${fontClass}`}>{t('services.subtitle')}</p>
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {serviceKeys.map((key, i) => (
               <AnimatedSection key={key} delay={i * 0.07}>
-                <div className="relative rounded-[20px] p-8 min-h-[260px] overflow-hidden shadow-[0px_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0px_12px_32px_rgba(0,0,0,0.06)] transition-all duration-300 bg-card border border-border group">
-                  {/* Gradient overlay */}
+                <div
+                  className="relative rounded-2xl p-8 min-h-[260px] overflow-hidden group transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(228,167,3,0.10)'; e.currentTarget.style.borderColor = 'rgba(228,167,3,0.3)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+                >
                   <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{ background: 'linear-gradient(235.96deg, hsl(var(--gold) / 0.08) 0%, transparent 101.21%)' }}
-                  />
-                  <div className="relative z-10">
-                    {/* Icon box */}
-                    <div className="w-14 h-14 rounded-xl bg-gold flex items-center justify-center mb-5 text-white group-hover:scale-110 transition-transform duration-300">
-                      {serviceIcons[i]}
-                    </div>
-                    <h3 className={`text-lg font-bold text-foreground mb-3 leading-snug ${fontClass}`}>
-                      {t(`services.items.${key}.title`)}
-                    </h3>
-                    <p className={`text-sm text-muted-foreground leading-relaxed ${fontClass}`}>
-                      {t(`services.items.${key}.desc`)}
-                    </p>
-                    <Link
-                      to="/services"
-                      className={`inline-block mt-5 text-sm font-medium text-gold hover:underline ${fontClass}`}
-                    >
-                      {isRTL ? 'معرفة المزيد ←' : 'Learn more →'}
-                    </Link>
+                    className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 text-white group-hover:scale-110 transition-transform duration-300"
+                    style={{ background: '#e4a703' }}
+                  >
+                    {serviceIcons[i]}
                   </div>
+                  <h3 className={`text-lg font-bold text-white mb-3 leading-snug ${fontClass}`}>
+                    {t(`services.items.${key}.title`)}
+                  </h3>
+                  <p className={`text-sm text-white/60 leading-relaxed ${fontClass}`}>
+                    {t(`services.items.${key}.desc`)}
+                  </p>
+                  <Link
+                    to="/services"
+                    className={`inline-block mt-5 text-sm font-semibold transition-colors ${fontClass}`}
+                    style={{ color: '#e4a703' }}
+                  >
+                    {isRTL ? 'معرفة المزيد ←' : 'Learn more →'}
+                  </Link>
                 </div>
               </AnimatedSection>
             ))}
@@ -473,145 +431,125 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── WHY US (Orbital Design) ─── */}
-      <section className="section-padding bg-muted/30 relative overflow-hidden">
-        <div className="absolute top-0 end-0 w-72 h-72 rounded-full bg-gold/6 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 start-0 w-64 h-64 rounded-full bg-gold/4 blur-3xl pointer-events-none" />
+      {/* ─── WHY US — Light + Gold accent ─── */}
+      <section className="section-padding relative overflow-hidden" style={{ background: '#f8f6f0' }}>
+        <div
+          className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.08) 0%, transparent 70%)', filter: 'blur(60px)' }}
+        />
         <div className="container-custom relative z-10">
           <AnimatedSection className="text-center mb-16">
-            <span className={`section-label ${fontClass}`}>{t('why.label')}</span>
-            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>{t('why.title')}</h2>
+            <span
+              className={`inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 ${fontClass}`}
+              style={{ background: 'rgba(29,59,136,0.08)', color: '#1d3b88', border: '1px solid rgba(29,59,136,0.2)' }}
+            >
+              {t('why.label')}
+            </span>
+            <h2 className={`text-3xl md:text-4xl font-bold mt-3 ${fontClass}`} style={{ color: '#1d3b88' }}>
+              {t('why.title')}
+            </h2>
           </AnimatedSection>
 
-          <div className={`grid lg:grid-cols-2 gap-16 items-center ${isRTL ? '' : 'direction-ltr'}`}>
-            {/* Content Side */}
+          <div className={`grid lg:grid-cols-2 gap-16 items-center`}>
+            {/* Real photo side */}
+            <AnimatedSection direction={isRTL ? 'right' : 'left'}>
+              <div className="relative">
+                <div className="rounded-2xl overflow-hidden shadow-2xl"
+                  style={{ border: '3px solid rgba(228,167,3,0.3)' }}>
+                  <img
+                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=700&q=80"
+                    alt="Business consulting team"
+                    className="w-full h-[480px] object-cover"
+                  />
+                </div>
+                {/* Floating achievement card */}
+                <motion.div
+                  className="absolute -bottom-6 -right-6 rounded-2xl p-5 shadow-xl"
+                  style={{ background: '#1d3b88', minWidth: '180px' }}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <div className={`text-3xl font-bold ${fontClass}`} style={{ color: '#e4a703' }}>15+</div>
+                  <div className={`text-sm text-white/80 ${fontClass}`}>{isRTL ? 'سنة في السوق' : 'Years in Market'}</div>
+                </motion.div>
+                {/* Gold corner accent */}
+                <div className="absolute -top-4 -left-4 w-16 h-16 rounded-full"
+                  style={{ background: '#e4a703', opacity: 0.2 }} />
+              </div>
+            </AnimatedSection>
+
+            {/* Content side */}
             <div className="space-y-6">
               {whyKeys.map((key, i) => (
                 <AnimatedSection key={key} delay={i * 0.12}>
-                  <div className={`flex gap-5 items-start ${isRTL ? 'text-right' : ''}`}>
-                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold flex-shrink-0 mt-1">
+                  <div className={`flex gap-5 items-start`}>
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(29,59,136,0.08)', color: '#1d3b88', border: '1px solid rgba(29,59,136,0.15)' }}
+                    >
                       {whyIcons[i]}
                     </div>
                     <div>
-                      <h3 className={`text-foreground font-bold text-lg mb-1.5 ${fontClass}`}>{t(`why.items.${key}.title`)}</h3>
-                      <p className={`text-muted-foreground text-sm leading-relaxed ${fontClass}`}>{t(`why.items.${key}.desc`)}</p>
+                      <h3 className={`font-bold text-lg mb-1.5 ${fontClass}`} style={{ color: '#1d3b88' }}>
+                        {t(`why.items.${key}.title`)}
+                      </h3>
+                      <p className={`text-sm leading-relaxed text-gray-600 ${fontClass}`}>
+                        {t(`why.items.${key}.desc`)}
+                      </p>
                     </div>
                   </div>
                 </AnimatedSection>
               ))}
+              <AnimatedSection delay={0.5}>
+                <Link
+                  to="/contact"
+                  className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white mt-4 transition-all duration-300 hover:scale-105 shadow-lg ${fontClass}`}
+                  style={{ background: '#1d3b88' }}
+                >
+                  {isRTL ? 'تواصل معنا' : 'Get In Touch'}
+                  {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+                </Link>
+              </AnimatedSection>
             </div>
-
-            <AnimatedSection direction={isRTL ? 'right' : 'left'}>
-              <div className="relative w-full aspect-square max-w-[460px] mx-auto">
-                {/* Outer dashed orbit - slow spin */}
-                <motion.div
-                  className="absolute inset-4 rounded-full border-2 border-dashed border-border"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-                />
-                {/* Inner dashed orbit - reverse slow spin */}
-                <motion.div
-                  className="absolute inset-[72px] rounded-full border-2 border-dashed border-border"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-                />
-
-                {/* Center logo */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-card shadow-card border border-border flex items-center justify-center z-10">
-                  <span className="text-gradient-gold font-bold text-xl tracking-tight"> <Link to="/" className="">
-            <img src={logo} alt="MEO Logo" className="h-16 scale-150 w-auto" />
-          </Link></span>
-                </div>
-
-                {/* Orbiting icons - outer ring */}
-                {[
-                  { icon: <Award size={20} />, angle: 0, ring: 'outer' },
-                  { icon: <Shield size={20} />, angle: 72, ring: 'outer' },
-                  { icon: <BarChart3 size={20} />, angle: 144, ring: 'outer' },
-                  { icon: <Users size={20} />, angle: 216, ring: 'outer' },
-                  { icon: <Lock size={20} />, angle: 288, ring: 'outer' },
-                ].map((item, i) => (
-                  <motion.div
-                    key={`outer-${i}`}
-                    className="absolute w-12 h-12 rounded-full bg-card shadow-card border border-border flex items-center justify-center text-gold"
-                    style={{
-                      top: `${50 - 44 * Math.cos((item.angle * Math.PI) / 180)}%`,
-                      left: `${50 + 44 * Math.sin((item.angle * Math.PI) / 180)}%`,
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                    animate={{ y: [0, -6, 0, 6, 0] }}
-                    transition={{
-                      duration: 4 + i * 0.5,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: i * 0.3,
-                    }}
-                  >
-                    {item.icon}
-                  </motion.div>
-                ))}
-
-                {/* Inner ring icons */}
-                {[
-                  { icon: <Cpu size={18} />, angle: 45 },
-                  { icon: <TrendingUp size={18} />, angle: 165 },
-                  { icon: <Settings size={18} />, angle: 285 },
-                ].map((item, i) => (
-                  <motion.div
-                    key={`inner-${i}`}
-                    className="absolute w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-gold"
-                    style={{
-                      top: `${50 - 27 * Math.cos((item.angle * Math.PI) / 180)}%`,
-                      left: `${50 + 27 * Math.sin((item.angle * Math.PI) / 180)}%`,
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                    animate={{
-                      y: [0, 5, 0, -5, 0],
-                      x: [0, -3, 0, 3, 0],
-                    }}
-                    transition={{
-                      duration: 5 + i * 0.7,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: i * 0.5,
-                    }}
-                  >
-                    {item.icon}
-                  </motion.div>
-                ))}
-              </div>
-            </AnimatedSection>
           </div>
         </div>
       </section>
 
- 
-      {/* ─── PACKAGES ─── */}
-      <section className="section-padding bg-muted/30">
+      {/* ─── PACKAGES — Gold/Blue Brand Colors ─── */}
+      <section className="section-padding" style={{ background: '#344672' }}>
         <div className="container-custom">
           <AnimatedSection className="text-center mb-16">
-            <span className={`section-label ${fontClass}`}>{t('packages.label')}</span>
-            <h2 className={`text-display font-bold text-foreground mt-3 mb-4 ${fontClass}`}>{t('packages.title')}</h2>
-            <p className={`text-muted-foreground max-w-xl mx-auto ${fontClass}`}>{t('packages.subtitle')}</p>
+            <span
+              className={`inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 ${fontClass}`}
+              style={{ background: 'rgba(228,167,3,0.2)', color: '#e4a703', border: '1px solid rgba(228,167,3,0.4)' }}
+            >
+              {t('packages.label')}
+            </span>
+            <h2 className={`text-3xl md:text-4xl font-bold text-white mt-3 mb-4 ${fontClass}`}>{t('packages.title')}</h2>
+            <p className={`text-white/60 max-w-xl mx-auto ${fontClass}`}>{t('packages.subtitle')}</p>
           </AnimatedSection>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Launch Package */}
             <AnimatedSection delay={0.1}>
-              <div className="bg-card border border-border rounded-2xl p-8 h-full card-premium card-gold-hover">
-                <div className={`text-sm font-semibold text-muted-foreground mb-2 ${fontClass}`}>{t('packages.launch.name')}</div>
-                <p className={`text-muted-foreground text-sm mb-8 ${fontClass}`}>{t('packages.launch.desc')}</p>
+              <div
+                className="rounded-2xl p-8 h-full transition-all duration-300 hover:-translate-y-1"
+                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)' }}
+              >
+                <div className={`text-sm font-semibold text-white/60 mb-2 ${fontClass}`}>{t('packages.launch.name')}</div>
+                <p className={`text-white/50 text-sm mb-8 ${fontClass}`}>{t('packages.launch.desc')}</p>
                 <ul className="space-y-3 mb-8">
                   {(t('packages.launch.features', { returnObjects: true }) as string[]).map((f, i) => (
-                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? '' : ''} ${fontClass}`}>
-                      <CheckCircle2 size={16} className="text-gold flex-shrink-0" />
+                    <li key={i} className={`flex items-center gap-3 text-sm text-white/80 ${fontClass}`}>
+                      <CheckCircle2 size={16} style={{ color: '#e4a703', flexShrink: 0 }} />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <Link
                   to="/contact"
-                  className={`block text-center py-3 px-6 rounded-full border-2 border-gold text-gold font-semibold text-sm hover:bg-gold hover:text-white transition-all duration-300 ${fontClass}`}
+                  className={`block text-center py-3 px-6 rounded-full border-2 font-semibold text-sm transition-all duration-300 hover:scale-105 ${fontClass}`}
+                  style={{ borderColor: '#e4a703', color: '#e4a703' }}
                 >
                   {t('packages.contact')}
                 </Link>
@@ -620,25 +558,32 @@ const Home: React.FC = () => {
 
             {/* Business Package */}
             <AnimatedSection delay={0.2}>
-              <div className="relative bg-card border-2 border-gold/50 rounded-2xl p-8 h-full shadow-gold overflow-hidden card-premium">
-                {/* Decorative blob */}
-                <div className="absolute top-0 end-0 w-40 h-40 rounded-bl-full bg-gold/8 pointer-events-none" />
-                <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} px-3 py-1 rounded-full bg-gradient-gold text-white text-xs font-bold ${fontClass}`}>
+              <div
+                className="relative rounded-2xl p-8 h-full transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                style={{ background: '#e4a703' }}
+              >
+                <div className="absolute top-0 right-0 w-40 h-40 rounded-full pointer-events-none"
+                  style={{ background: 'rgba(255,255,255,0.1)', transform: 'translate(30%, -30%)' }} />
+                <div
+                  className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} px-3 py-1 rounded-full text-xs font-bold ${fontClass}`}
+                  style={{ background: '#1d3b88', color: 'white' }}
+                >
                   {t('packages.popular')}
                 </div>
-                <div className={`text-sm font-semibold text-gold mb-2 ${fontClass}`}>{t('packages.business.name')}</div>
-                <p className={`text-muted-foreground text-sm mb-8 ${fontClass}`}>{t('packages.business.desc')}</p>
+                <div className={`text-sm font-semibold mb-2 ${fontClass}`} style={{ color: '#1d3b88' }}>{t('packages.business.name')}</div>
+                <p className={`text-sm mb-8 ${fontClass}`} style={{ color: 'rgba(29,59,136,0.75)' }}>{t('packages.business.desc')}</p>
                 <ul className="space-y-3 mb-8">
                   {(t('packages.business.features', { returnObjects: true }) as string[]).map((f, i) => (
-                    <li key={i} className={`flex items-center gap-3 text-sm text-foreground ${isRTL ? '' : ''} ${fontClass}`}>
-                      <CheckCircle2 size={16} className="text-gold flex-shrink-0" />
+                    <li key={i} className={`flex items-center gap-3 text-sm ${fontClass}`} style={{ color: '#1d3b88' }}>
+                      <CheckCircle2 size={16} style={{ color: '#1d3b88', flexShrink: 0 }} />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <Link
                   to="/contact"
-                  className={`block text-center py-3 px-6 rounded-full bg-gradient-gold text-white font-semibold text-sm hover:shadow-gold transition-all duration-300 hover:scale-105 ${fontClass}`}
+                  className={`block text-center py-3 px-6 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 shadow-lg ${fontClass}`}
+                  style={{ background: '#1d3b88', color: 'white' }}
                 >
                   {t('packages.cta')}
                 </Link>
@@ -648,65 +593,108 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── TESTIMONIALS (Card Carousel) ─── */}
-      <section className="section-padding bg-background">
+      {/* ─── ABOUT / REAL IMAGE SECTION ─── */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <AnimatedSection>
+              <span
+                className={`inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 ${fontClass}`}
+                style={{ background: 'rgba(228,167,3,0.1)', color: '#e4a703', border: '1px solid rgba(228,167,3,0.3)' }}
+              >
+                {isRTL ? 'من نحن' : 'About Us'}
+              </span>
+              <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${fontClass}`} style={{ color: '#1d3b88' }}>
+                {isRTL ? 'مكتب الخبرات المتعددة — شريكك في النجاح' : 'Multiple Experiences Office — Your Success Partner'}
+              </h2>
+              <p className={`text-gray-600 leading-relaxed mb-6 ${fontClass}`}>
+                {isRTL
+                  ? 'نحن مكتب متخصص في تقديم الحلول المالية والإدارية المتكاملة للمنشآت الصغيرة والمتوسطة في المملكة العربية السعودية، مع خبرة تتجاوز عشر سنوات في السوق.'
+                  : 'We are a specialized office providing comprehensive financial and administrative solutions for small and medium enterprises in Saudi Arabia, with over ten years of market experience.'
+                }
+              </p>
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {[
+                  { icon: <Award size={20} />, text: isRTL ? 'فريق معتمد ومحترف' : 'Certified Professional Team' },
+                  { icon: <Shield size={20} />, text: isRTL ? 'سرية تامة للبيانات' : 'Full Data Confidentiality' },
+                  { icon: <TrendingUp size={20} />, text: isRTL ? 'نتائج مضمونة' : 'Guaranteed Results' },
+                  { icon: <Users size={20} />, text: isRTL ? 'دعم مستمر ٢٤/٧' : '24/7 Continuous Support' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(228,167,3,0.1)', color: '#e4a703' }}>
+                      {item.icon}
+                    </div>
+                    <span className={`text-sm font-medium text-gray-700 ${fontClass}`}>{item.text}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                to="/about"
+                className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white transition-all duration-300 hover:scale-105 ${fontClass}`}
+                style={{ background: '#1d3b88' }}
+              >
+                {isRTL ? 'اعرف أكثر عنّا' : 'Learn More About Us'}
+                {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+              </Link>
+            </AnimatedSection>
+
+           
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIALS ─── */}
+      <section className="section-padding" style={{ background: '#4d6090' }}>
         <div className="container-custom">
           <AnimatedSection className="text-center mb-16">
-            <span className={`section-label ${fontClass}`}>{t('testimonials.label')}</span>
-            <h2 className={`text-display font-bold text-foreground mt-3 ${fontClass}`}>{t('testimonials.title')}</h2>
-            <p className={`text-muted-foreground text-base mt-3 ${fontClass}`}>
-              {isRTL ? 'تجارب حقيقية من عملاء يثقون بخدماتنا ويشهدون بجودتها.' : 'Real experiences from clients who trust our services.'}
+            <span
+              className={`inline-block text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 ${fontClass}`}
+              style={{ background: 'rgba(228,167,3,0.2)', color: '#e4a703', border: '1px solid rgba(228,167,3,0.4)' }}
+            >
+              {t('testimonials.label')}
+            </span>
+            <h2 className={`text-3xl md:text-4xl font-bold text-white mt-3 ${fontClass}`}>{t('testimonials.title')}</h2>
+            <p className={`text-white/60 text-base mt-3 ${fontClass}`}>
+              {isRTL ? 'تجارب حقيقية من عملاء يثقون بخدماتنا.' : 'Real experiences from clients who trust our services.'}
             </p>
           </AnimatedSection>
 
           <div className="relative">
-            {/* Cards container */}
             <div className="overflow-hidden">
               <div
                 className="flex transition-transform duration-500 ease-out gap-6"
                 style={{ transform: `translateX(${isRTL ? testimonialIndex * (100 / Math.min(testimonials.length, 3)) : -(testimonialIndex * (100 / Math.min(testimonials.length, 3)))}%)` }}
               >
                 {testimonials.map((item, i) => (
-                  <div
-                    key={i}
-                    className="min-w-0 shrink-0 grow-0 basis-full md:basis-[calc(33.333%-1rem)] my-4"
-                  >
-                    <div className="relative h-full rounded-[18px] border border-gold/20 bg-card px-6 pt-10 pb-6 shadow-card hover:shadow-card-hover transition-all duration-300">
-                      {/* Quote icon */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        className={`absolute top-6 ${isRTL ? 'left-6' : 'right-6'} h-8 w-8`}
-                        fill="hsl(var(--gold))"
-                        stroke="hsl(var(--gold))"
-                        strokeWidth="0.5"
+                  <div key={i} className="min-w-0 shrink-0 grow-0 basis-full md:basis-[calc(33.333%-1rem)] my-4">
+                    <div
+                      className="relative h-full rounded-2xl px-6 pt-10 pb-6 transition-all duration-300"
+                      style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                        className={`absolute top-6 ${isRTL ? 'left-6' : 'right-6'}`}
+                        fill="#e4a703" stroke="#e4a703" strokeWidth="0.5"
                       >
                         <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
                         <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
                       </svg>
-
-                      {/* Stars */}
                       <div className="my-5 flex gap-1">
                         {[...Array(5)].map((_, si) => (
-                          <Star key={si} size={16} className="text-gold fill-gold" />
+                          <Star key={si} size={16} style={{ color: '#e4a703', fill: '#e4a703' }} />
                         ))}
                       </div>
-
-                      {/* Text */}
-                      <p className={`mb-10 text-[15px] leading-[1.9] text-foreground ${fontClass}`}>
-                        "{item.text}"
-                      </p>
-
-                      {/* Author */}
-                      <div className={`flex items-center gap-3 ${isRTL ? '' : ''}`}>
-                        <div className="h-10 w-10 rounded-full bg-gradient-gold flex items-center justify-center text-white font-bold text-sm">
+                      <p className={`mb-10 text-[15px] leading-[1.9] text-white/80 ${fontClass}`}>"{item.text}"</p>
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="h-10 w-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                          style={{ background: '#e4a703' }}
+                        >
                           {item.name?.charAt(0)}
                         </div>
                         <div className={isRTL ? 'text-right' : 'text-left'}>
-                          <p className={`text-sm font-semibold text-foreground ${fontClass}`}>{item.name}</p>
-                          <p className={`text-xs text-muted-foreground ${fontClass}`}>{item.role}</p>
+                          <p className={`text-sm font-semibold text-white ${fontClass}`}>{item.name}</p>
+                          <p className={`text-xs text-white/50 ${fontClass}`}>{item.role}</p>
                         </div>
                       </div>
                     </div>
@@ -715,31 +703,33 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Navigation arrows (desktop) */}
             <div className="hidden lg:flex">
               <button
                 onClick={() => setTestimonialIndex(prev => Math.max(0, prev - 1))}
-                className="absolute -start-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-card shadow-card hover:bg-accent transition-colors flex items-center justify-center"
+                className="absolute -start-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full flex items-center justify-center transition-colors"
+                style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: 'white' }}
               >
                 {isRTL ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
               </button>
               <button
                 onClick={() => setTestimonialIndex(prev => Math.min(Math.max(0, testimonials.length - 3), prev + 1))}
-                className="absolute -end-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-card shadow-card hover:bg-accent transition-colors flex items-center justify-center"
+                className="absolute -end-12 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full flex items-center justify-center transition-colors"
+                style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: 'white' }}
               >
                 {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
               </button>
             </div>
 
-            {/* Dots */}
             <div className="mt-10 flex justify-center gap-2.5">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setTestimonialIndex(i)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === testimonialIndex ? 'w-6 bg-gold' : 'w-2 bg-border hover:bg-gold/40'
-                  }`}
+                  className="h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: i === testimonialIndex ? '24px' : '8px',
+                    background: i === testimonialIndex ? '#e4a703' : 'rgba(255,255,255,0.3)',
+                  }}
                 />
               ))}
             </div>
@@ -747,38 +737,56 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ─── CTA (Gold Card) ─── */}
-      <section className="py-20 bg-background">
+      {/* ─── CONTACT INFO STRIP ─── */}
+      <section style={{ background: '#e4a703' }} className="py-10">
         <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {[
+              { icon: <Phone size={24} />, label: isRTL ? 'اتصل بنا' : 'Call Us', value: '+966 XX XXX XXXX' },
+              { icon: <Mail size={24} />, label: isRTL ? 'راسلنا' : 'Email Us', value: 'info@alkhebrat.sa' },
+              { icon: <MapPin size={24} />, label: isRTL ? 'موقعنا' : 'Location', value: isRTL ? 'المملكة العربية السعودية' : 'Saudi Arabia' },
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center text-[#e4a703]"
+                  style={{ background: '#1d3b88' }}>
+                  {item.icon}
+                </div>
+                <div className={`text-xs font-semibold text-[#1d3b88]/70 uppercase tracking-wide ${fontClass}`}>{item.label}</div>
+                <div className={`font-bold text-[#1d3b88] ${fontClass}`}>{item.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA (Navy + Gold) ─── */}
+      <section className="" style={{ background: '#1d3b88' }}>
+        <div className="">
           <AnimatedSection>
-            <div
-              className="relative rounded-2xl py-14 px-6 overflow-hidden text-center"
-              style={{
-                background: 'linear-gradient(135deg, hsl(38 50% 57%), hsl(36 55% 42%))',
-              }}
-            >
-              {/* Decorative pattern overlay */}
-              <div
-                className="absolute inset-0 opacity-10 pointer-events-none"
-                style={{
-                  backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%), radial-gradient(circle at 60% 80%, rgba(255,255,255,0.12) 0%, transparent 45%)`,
-                }}
-              />
-              {/* Geometric shapes */}
-              <div className="absolute top-0 start-0 w-32 h-32 rounded-full bg-white/10 -translate-x-1/2 -translate-y-1/2" />
-              <div className="absolute bottom-0 end-0 w-48 h-48 rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
-              <div className="absolute top-1/2 end-10 w-20 h-20 rounded-full border border-white/10" />
+            <div className="relative rounded-2xl py-16 px-6 overflow-hidden text-center"
+              style={{ background: 'linear-gradient(135deg, #253d7a 0%, #344672 100%)', border: '1px solid rgba(228,167,3,0.2)' }}>
+              <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.1) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+              <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.08) 0%, transparent 70%)', filter: 'blur(50px)' }} />
 
               <div className="relative z-10 max-w-3xl mx-auto">
+                <div
+                  className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 ${fontClass}`}
+                  style={{ background: 'rgba(228,167,3,0.15)', color: '#e4a703', border: '1px solid rgba(228,167,3,0.4)' }}
+                >
+                  {isRTL ? 'ابدأ رحلتك معنا' : 'Start Your Journey'}
+                </div>
                 <h2 className={`text-2xl md:text-4xl font-bold text-white mb-6 ${fontClass}`}>
                   {t('cta.title')}
                 </h2>
-                <p className={`text-lg md:text-xl text-white/85 mb-8 max-w-2xl mx-auto ${fontClass}`}>
+                <p className={`text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto ${fontClass}`}>
                   {t('cta.subtitle')}
                 </p>
                 <Link
                   to="/contact"
-                  className={`inline-flex items-center gap-2 bg-white text-gold-dark hover:bg-white/90 text-lg px-10 py-3.5 rounded-full shadow-xl font-bold transition-all duration-300 hover:scale-105 ${fontClass}`}
+                  className={`inline-flex items-center gap-2 text-lg px-12 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105 shadow-xl ${fontClass}`}
+                  style={{ background: '#e4a703', color: '#1d3b88' }}
                 >
                   {t('cta.button')}
                   {isRTL ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}

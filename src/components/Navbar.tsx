@@ -39,23 +39,23 @@ const Navbar: React.FC = () => {
   return (
     <>
       <motion.header
-        className={`fixed top-0 border   mt-6 rounded-3xl border-[#4c30307b] my-12  max-w-[1200px]  mx-auto container  left-0 right-0 z-50 transition-all duration-300 ${
+        className={` absolute top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? ' backdrop-blur-md shadow-card border-b border-border'
-            : 'dark:bg-[#0c121c] bg-white backdrop-blur-sm border-b shadow-card border-border/30'
+            ? 'bg-blue-100  backdrop-blur-md shadow-card border-b border-border'
+            : ' bg-transparent backdrop-blur-sm border-b border-border/30'
         }`}
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <nav className=" flex items-center justify-between h-20">
+        <nav className="container-custom flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="">
-            <img src={logo} alt="MEO Logo" className="h-16 scale-150 w-auto" />
+          <Link to="/" className="flex-shrink-0">
+            <img src={logo} alt="MEO Logo" className="h-12 w-auto" />
           </Link>
 
           {/* Desktop nav links */}
-          <div className={`hidden md:flex items-center gap-8 ${isRTL ? 'flex-row' : ''}`}>
+          <div className={`hidden md:flex items-center gap-8 ${isRTL ? '' : ''}`}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
                 className={`nav-link text-sm font-medium transition-colors ${
                   isActive(link.href)
                     ? 'text-gold active'
-                    : 'text-foreground hover:text-gold'
+                    : 'text-white hover:text-gold'
                 } ${isRTL ? 'font-tajawal' : 'font-poppins'}`}
               >
                 {link.label}
@@ -76,19 +76,14 @@ const Navbar: React.FC = () => {
             {/* Language toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border text-foreground hover:border-gold hover:text-gold transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border text-white hover:border-gold hover:text-gold transition-all duration-200"
             >
               <Globe size={14} />
               {lang === 'ar' ? 'EN' : 'عر'}
             </button>
 
             {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full text-foreground hover:text-gold hover:bg-muted transition-all duration-200"
-            >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+           
 
             {/* CTA */}
             <Link
@@ -101,7 +96,7 @@ const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg text-foreground transition-colors"
+            className="md:hidden p-2 rounded-lg text-white transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -130,7 +125,7 @@ const Navbar: React.FC = () => {
                   <Link
                     to={link.href}
                     className={`block py-4 text-xl font-semibold border-b border-border/50 transition-colors ${
-                      isActive(link.href) ? 'text-gold' : 'text-foreground hover:text-gold'
+                      isActive(link.href) ? 'text-gold' : 'text-white hover:text-gold'
                     } ${isRTL ? 'text-right font-tajawal' : 'text-left font-poppins'}`}
                   >
                     {link.label}
@@ -146,12 +141,7 @@ const Navbar: React.FC = () => {
                 <Globe size={16} />
                 {lang === 'ar' ? 'English' : 'عربي'}
               </button>
-              <button
-                onClick={toggleTheme}
-                className="p-2.5 rounded-full border border-border hover:border-gold hover:text-gold transition-colors"
-              >
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
+         
             </div>
           </motion.div>
         )}

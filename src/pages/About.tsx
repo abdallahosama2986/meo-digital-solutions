@@ -22,34 +22,55 @@ const About: React.FC = () => {
         <meta name="description" content={t('about.story')} />
       </Helmet>
 
-      {/* ─── Hero (Light) ─── */}
-      <section className="relative pt-40 pb-28 overflow-hidden bg-background">
-        {/* Blobs */}
-        <div className="absolute top-0 end-0 w-[500px] h-[500px] rounded-full bg-gold/8 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 start-0 w-[400px] h-[400px] rounded-full bg-gold/5 blur-[100px] pointer-events-none" />
-        {/* Dot grid */}
+      {/* ─── Hero (Dark — matching Home) ─── */}
+      <section
+        className="relative min-h-[60vh] flex items-center overflow-hidden"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, rgba(29,59,136,0.92) 0%, rgba(37,61,122,0.85) 50%, rgba(52,70,114,0.80) 100%)' }}
         />
-        {/* Decorative arc */}
-        <svg className="absolute bottom-0 left-0 right-0 w-full text-gold/10 pointer-events-none" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 80 Q720 0 1440 80" stroke="currentColor" strokeWidth="2" fill="none" />
-        </svg>
+        <div
+          className="absolute inset-0 pointer-events-none opacity-10"
+          style={{ backgroundImage: 'repeating-linear-gradient(45deg, #e4a703 0px, #e4a703 1px, transparent 1px, transparent 60px)' }}
+        />
+        <div className="absolute top-20 right-20 w-64 h-64 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.15) 0%, transparent 70%)', filter: 'blur(40px)' }} />
 
-        <div className="container-custom relative z-10 text-center">
+        <div className="container-custom relative z-10 text-center pt-28 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className={`section-label ${fontClass}`}>{t('about.badge')}</span>
-            <h1 className={`text-display font-bold text-foreground mt-4 max-w-3xl mx-auto ${fontClass}`}>
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+              style={{ background: 'rgba(228,167,3,0.15)', border: '1px solid rgba(228,167,3,0.4)' }}
+            >
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#e4a703' }} />
+              <span className={`text-sm font-semibold ${fontClass}`} style={{ color: '#e4a703' }}>{t('about.badge')}</span>
+            </div>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-4 max-w-3xl mx-auto ${fontClass}`}>
               {t('about.title')}
             </h1>
-            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'var(--gradient-gold)' }} />
+            <p className={`text-white/70 max-w-xl mx-auto mt-6 text-lg ${fontClass}`}>{t('about.story')}</p>
+            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'linear-gradient(135deg, #e4a703, #d5ab2a)' }} />
           </motion.div>
         </div>
+
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <div className="w-px h-10 mx-auto" style={{ background: 'linear-gradient(to bottom, #e4a703, transparent)' }} />
+        </motion.div>
       </section>
 
       {/* Story */}

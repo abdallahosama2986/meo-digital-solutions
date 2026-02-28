@@ -30,42 +30,55 @@ const Services: React.FC = () => {
         <meta name="description" content={t('services.subtitle')} />
       </Helmet>
 
-      {/* ─── Hero (Light) ─── */}
-      <section className="relative pt-40 pb-28 overflow-hidden bg-background">
-        {/* Blobs */}
-        <div className="absolute top-0 start-0 w-[450px] h-[450px] rounded-full bg-gold/8 blur-[110px] pointer-events-none" />
-        <div className="absolute bottom-0 end-0 w-[400px] h-[400px] rounded-full bg-gold/5 blur-[100px] pointer-events-none" />
-        {/* Dot grid */}
+      {/* ─── Hero (Dark — matching Home) ─── */}
+      <section
+        className="relative min-h-[60vh] flex items-center overflow-hidden"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, rgba(29,59,136,0.92) 0%, rgba(37,61,122,0.85) 50%, rgba(52,70,114,0.80) 100%)' }}
         />
-        {/* Diagonal lines */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="diag" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <line x1="0" y1="0" x2="0" y2="40" stroke="hsl(var(--gold))" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#diag)" />
-        </svg>
-        {/* Gold bottom line */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+        <div
+          className="absolute inset-0 pointer-events-none opacity-10"
+          style={{ backgroundImage: 'repeating-linear-gradient(45deg, #e4a703 0px, #e4a703 1px, transparent 1px, transparent 60px)' }}
+        />
+        <div className="absolute bottom-32 left-10 w-80 h-80 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.10) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
-        <div className="container-custom relative z-10 text-center">
+        <div className="container-custom relative z-10 text-center pt-28 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className={`section-label ${fontClass}`}>{t('services.label')}</span>
-            <h1 className={`text-display font-bold text-foreground mt-4 max-w-2xl mx-auto ${fontClass}`}>
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+              style={{ background: 'rgba(228,167,3,0.15)', border: '1px solid rgba(228,167,3,0.4)' }}
+            >
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#e4a703' }} />
+              <span className={`text-sm font-semibold ${fontClass}`} style={{ color: '#e4a703' }}>{t('services.label')}</span>
+            </div>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-4 max-w-2xl mx-auto ${fontClass}`}>
               {t('services.title')}
             </h1>
-            <p className={`text-muted-foreground max-w-xl mx-auto mt-4 ${fontClass}`}>{t('services.subtitle')}</p>
-            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'var(--gradient-gold)' }} />
+            <p className={`text-white/70 max-w-xl mx-auto mt-6 text-lg ${fontClass}`}>{t('services.subtitle')}</p>
+            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'linear-gradient(135deg, #e4a703, #d5ab2a)' }} />
           </motion.div>
         </div>
+
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <div className="w-px h-10 mx-auto" style={{ background: 'linear-gradient(to bottom, #e4a703, transparent)' }} />
+        </motion.div>
       </section>
 
       {/* ─── Services Grid ─── */}
@@ -96,13 +109,15 @@ const Services: React.FC = () => {
                     <p className={`text-muted-foreground leading-relaxed mb-4 text-sm ${fontClass}`}>
                       {t(`services.items.${key}.desc`)}
                     </p>
-                    <Link
-                      to="/contact"
+                    <a
+                      href="https://wa.me/966539606358"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={`inline-flex items-center gap-1.5 text-gold text-sm font-semibold hover:gap-2.5 transition-all duration-300 ${fontClass}`}
                     >
                       {t('services.learnMore')}
                       {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-                    </Link>
+                    </a>
                   </div>
                 </motion.div>
               </AnimatedSection>
@@ -121,12 +136,14 @@ const Services: React.FC = () => {
               <span className={`section-label ${fontClass}`}>{isRTL ? 'هل أنت مستعد؟' : 'Ready to Start?'}</span>
               <h2 className={`text-display font-bold text-foreground mb-4 mt-3 ${fontClass}`}>{t('cta.title')}</h2>
               <p className={`text-muted-foreground mb-8 ${fontClass}`}>{t('cta.subtitle')}</p>
-              <Link
-                to="/contact"
+              <a
+                href="https://wa.me/966539606358"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-gold text-white font-bold shadow-gold hover:scale-105 transition-all duration-300 ${fontClass}`}
               >
                 {t('cta.button')}
-              </Link>
+              </a>
             </div>
           </AnimatedSection>
         </div>

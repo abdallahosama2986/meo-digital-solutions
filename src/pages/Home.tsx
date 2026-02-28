@@ -253,15 +253,17 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="flex flex-wrap gap-4"
               >
-                <Link
-                  to="/contact"
+                <a
+                  href="https://wa.me/966539606358"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 shadow-lg ${fontClass}`}
                   style={{ background: '#e4a703', color: '#1d3b88' }}
                   onMouseEnter={e => (e.currentTarget.style.background = '#d5ab2a')}
                   onMouseLeave={e => (e.currentTarget.style.background = '#e4a703')}
                 >
                   {t('hero.cta1')}
-                </Link>
+                </a>
                 <Link
                   to="/services"
                   className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 border-2 text-white hover:text-[#1d3b88] hover:bg-white ${fontClass}`}
@@ -501,14 +503,16 @@ const Home: React.FC = () => {
                 </AnimatedSection>
               ))}
               <AnimatedSection delay={0.5}>
-                <Link
-                  to="/contact"
+                <a
+                  href="https://wa.me/966539606358"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white mt-4 transition-all duration-300 hover:scale-105 shadow-lg ${fontClass}`}
                   style={{ background: '#1d3b88' }}
                 >
                   {isRTL ? 'تواصل معنا' : 'Get In Touch'}
                   {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
-                </Link>
+                </a>
               </AnimatedSection>
             </div>
           </div>
@@ -546,13 +550,15 @@ const Home: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to="/contact"
+                <a
+                  href="https://wa.me/966539606358"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`block text-center py-3 px-6 rounded-full border-2 font-semibold text-sm transition-all duration-300 hover:scale-105 ${fontClass}`}
                   style={{ borderColor: '#e4a703', color: '#e4a703' }}
                 >
                   {t('packages.contact')}
-                </Link>
+                </a>
               </div>
             </AnimatedSection>
 
@@ -580,13 +586,15 @@ const Home: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to="/contact"
+                <a
+                  href="https://wa.me/966539606358"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`block text-center py-3 px-6 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 shadow-lg ${fontClass}`}
                   style={{ background: '#1d3b88', color: 'white' }}
                 >
                   {t('packages.cta')}
-                </Link>
+                </a>
               </div>
             </AnimatedSection>
           </div>
@@ -783,14 +791,16 @@ const Home: React.FC = () => {
                 <p className={`text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto ${fontClass}`}>
                   {t('cta.subtitle')}
                 </p>
-                <Link
-                  to="/contact"
+                <a
+                  href="https://wa.me/966539606358"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2 text-lg px-12 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105 shadow-xl ${fontClass}`}
                   style={{ background: '#e4a703', color: '#1d3b88' }}
                 >
                   {t('cta.button')}
                   {isRTL ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
-                </Link>
+                </a>
               </div>
             </div>
           </AnimatedSection>

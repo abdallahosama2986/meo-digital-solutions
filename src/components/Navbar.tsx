@@ -86,12 +86,14 @@ const Navbar: React.FC = () => {
            
 
             {/* CTA */}
-            <Link
-              to="/contact"
+            <a
+              href="https://wa.me/966539606358"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-5 py-2 rounded-full text-sm font-semibold bg-gradient-gold text-white shadow-gold hover:shadow-lg transition-all duration-200 hover:scale-105"
             >
               {t('nav.contact')}
-            </Link>
+            </a>
           </div>
 
           {/* Mobile menu button */}

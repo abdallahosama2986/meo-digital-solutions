@@ -34,31 +34,53 @@ const Contact: React.FC = () => {
         <meta name="description" content={t('contact.subtitle')} />
       </Helmet>
 
-      {/* ─── Hero (Light) ─── */}
-      <section className="relative pt-40 pb-28 overflow-hidden bg-background">
-        {/* Blobs */}
-        <div className="absolute top-0 end-0 w-[500px] h-[500px] rounded-full bg-gold/8 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 start-1/3 w-[350px] h-[350px] rounded-full bg-gold/5 blur-[90px] pointer-events-none" />
-        {/* Dot grid */}
+      {/* ─── Hero (Dark — matching Home) ─── */}
+      <section
+        className="relative min-h-[60vh] flex items-center overflow-hidden"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(hsl(var(--gold)) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, rgba(29,59,136,0.92) 0%, rgba(37,61,122,0.85) 50%, rgba(52,70,114,0.80) 100%)' }}
         />
-        {/* Gold line accent */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+        <div
+          className="absolute inset-0 pointer-events-none opacity-10"
+          style={{ backgroundImage: 'repeating-linear-gradient(45deg, #e4a703 0px, #e4a703 1px, transparent 1px, transparent 60px)' }}
+        />
+        <div className="absolute bottom-32 left-10 w-80 h-80 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(228,167,3,0.10) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
-        <div className="container-custom relative z-10 text-center">
+        <div className="container-custom relative z-10 text-center pt-28 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className={`section-label ${fontClass}`}>{t('contact.badge')}</span>
-            <h1 className={`text-display font-bold text-foreground mt-4 ${fontClass}`}>{t('contact.title')}</h1>
-            <p className={`text-muted-foreground max-w-xl mx-auto mt-4 ${fontClass}`}>{t('contact.subtitle')}</p>
-            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'var(--gradient-gold)' }} />
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+              style={{ background: 'rgba(228,167,3,0.15)', border: '1px solid rgba(228,167,3,0.4)' }}
+            >
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#e4a703' }} />
+              <span className={`text-sm font-semibold ${fontClass}`} style={{ color: '#e4a703' }}>{t('contact.badge')}</span>
+            </div>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-4 ${fontClass}`}>{t('contact.title')}</h1>
+            <p className={`text-white/70 max-w-xl mx-auto mt-6 text-lg ${fontClass}`}>{t('contact.subtitle')}</p>
+            <div className="w-16 h-1 rounded-full mx-auto mt-6" style={{ background: 'linear-gradient(135deg, #e4a703, #d5ab2a)' }} />
           </motion.div>
         </div>
+
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <div className="w-px h-10 mx-auto" style={{ background: 'linear-gradient(to bottom, #e4a703, transparent)' }} />
+        </motion.div>
       </section>
 
       {/* Contact Layout */}

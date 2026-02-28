@@ -3,7 +3,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ChevronLeft, Calendar, Tag, ArrowLeft, Arrowstart, Clock, ChevronRight } from 'lucide-react';
+import { ChevronLeft, Calendar, Tag, ArrowLeft, ArrowRight, Clock, ChevronRight } from 'lucide-react';
 import AnimatedSection from '@/components/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -298,12 +298,14 @@ const ArticleDetail: React.FC = () => {
                     ? 'فريقنا من الخبراء جاهز لمساعدتك في تطوير منشأتك وتحقيق أهدافك'
                     : 'Our team of experts is ready to help you develop your business and achieve your goals'}
                 </p>
-                <Link
-                  to="/contact"
+                <a
+                  href="https://wa.me/966539606358"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2 px-8 py-3 rounded-full bg-gradient-gold text-white font-semibold text-sm shadow-gold hover:scale-105 transition-all duration-300 ${fontClass}`}
                 >
                   {isRTL ? 'تواصل معنا' : 'Contact Us'}
-                </Link>
+                </a>
               </div>
             </AnimatedSection>
 

@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
     { href: '/about', label: t('nav.about') },
     { href: '/services', label: t('nav.services') },
     { href: '/articles', label: t('nav.articles') },
-    { href: '/contact', label: t('nav.contact') },
+  
   ];
 
   const isActive = (href: string) =>
@@ -50,8 +50,8 @@ const Navbar: React.FC = () => {
       >
         <nav className="container-custom flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <img src={logo} alt="MEO Logo" className="h-12 w-auto" />
+          <Link to="/" className="">
+            <img src={logo} alt="MEO Logo" className=" h-16 mt-1" />
           </Link>
 
           {/* Desktop nav links */}

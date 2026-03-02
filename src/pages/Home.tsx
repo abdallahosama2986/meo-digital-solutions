@@ -750,7 +750,7 @@ const Home: React.FC = () => {
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             {[
-              { icon: <Phone size={24} />, label: isRTL ? 'اتصل بنا' : 'Call Us', value: '+966 XX XXX XXXX' },
+              { icon: <Phone size={24} />, label: isRTL ? 'اتصل بنا' : 'Call Us', value: '966539606358+' },
               { icon: <Mail size={24} />, label: isRTL ? 'راسلنا' : 'Email Us', value: 'info@alkhebrat.sa' },
               { icon: <MapPin size={24} />, label: isRTL ? 'موقعنا' : 'Location', value: isRTL ? 'المملكة العربية السعودية' : 'Saudi Arabia' },
             ].map((item, i) => (

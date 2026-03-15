@@ -26,7 +26,7 @@ const ArticlesManager: React.FC = () => {
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<Article | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ title: '', excerpt: '', category: '', status: 'draft' as const });
+  const [form, setForm] = useState<{ title: string; excerpt: string; category: string; status: 'published' | 'draft' }>({ title: '', excerpt: '', category: '', status: 'draft' });
 
   const filtered = articles.filter(
     (a) => a.title.includes(search) || a.category.includes(search)
